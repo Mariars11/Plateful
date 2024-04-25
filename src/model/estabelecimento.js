@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
 const database = require('../db');
+const { type } = require('express/lib/response');
 
-const Desejo = database.define('desejo', {
-    id_des: {
+const Estabelecimento = database.define('estabelecimento', {
+    id_estabelecimento: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -12,22 +13,14 @@ const Desejo = database.define('desejo', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    titulo: {
+    nome: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    preco: {
-        type: Sequelize.DOUBLE,
-        allowNull: false
-    },
-    url_imagem: {
+    unidade: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
-    indicador_ativo: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    }
 });
 
-module.exports = Desejo;
+module.exports = Estabelecimento;

@@ -44,39 +44,41 @@
     <div class="main-content">
       <div class="div-line-h1-btn">
         <div>
-          <h1>Lista de Estabelecimentos</h1>
+            {{#estabelecimento}}
+          <h1>Lista de Itens - {{nome}}</h1>
+          {{/estabelecimento}}
         </div>
         <div>
-          <button type="button" class="btn btn-primary" id="btn-addProduct">Adicionar Estabelecimentos</button>
+          <button type="button" class="btn btn-primary" id="btn-addProduct">Adicionar item</button>
         </div>
       </div>    
       <div class="row my-4">
         <div class="col-3 mt-3" id="div-cards">
-          {{#estabelecimentos}}
+          {{#items}}
             <div class="card">
-                <h5 class="card-header">{{nome}}</h5>
+                <h5 class="card-header">{{titulo}}</h5>
                 <div class="card-body">
                     <div class="div-price-btns">
                       <div>
-                        <p class="card-text">{{unidade}}</p>
+                        <p class="card-text">R$ {{preco}}</p>
                       </div>
                       <div class="btns-edit-del">
                         <div>
-                          <form action="/lista_itens/{{id_estabelecimento}}/" method="get">
+                          <form action="/ver_itens/{{id_estabelecimento}}/" method="get">
                             <button type="submit" class="btn btn-primary btn-sm">
                               <span aria-hidden="true">👁️</span>
                             </button>
                           </form> 
                         </div>
                         <div>
-                          <form action="/editar_estabelecimento/{{id_estabelecimento}}/" method="get">
+                          <form action="/editar_desejo/{{id_estabelecimento}}/" method="get">
                             <button type="submit" class="btn btn-primary btn-sm">
                               <span aria-hidden="true">✏️</span>
                             </button>
                           </form> 
                         </div>
                         <div>
-                          <form action="/excluir_estabelecimento/{{id_estabelecimento}}" method="post">
+                          <form action="/excluir_desejo/{{id_estabelecimento}}" method="post">
                             <button type="submit" class="btn btn-danger btn-sm">
                               <span aria-hidden="true">✖️</span>
                             </button>
@@ -86,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            {{/estabelecimentos}}
+            {{/items}}
         </div>
       </div>
     </div>
@@ -94,20 +96,20 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Cadastre um estabelecimento</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Cadastre um item</h5>
             <button type="button" id="close_modal" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form action="/cadastrar_estabelecimento" method="post">
+            <form action="/cadastrar_desejo" method="post">
               <div class="mb-1 mt-1">
-                <label for="titulo" class="form-label">Nome:</label>
-                <input required type="text" class="form-control" id="nome" placeholder="Informe o nome do estabelecimento" name="nome">
+                <label for="titulo" class="form-label">Titulo:</label>
+                <input required type="text" class="form-control" id="titulo" placeholder="Informe o titulo do produto" name="titulo">
               </div>
               <div class="mb-1">
-                <label for="preco" class="form-label">Unidade:</label>
-                <input type="text" placeholder="Informe a unidade" class="form-control" id="unidade" name="unidade">
+                <label for="preco" class="form-label">Preco:</label>
+                <input type="text" placeholder="Informe o preco" class="form-control" id="preco" name="preco">
               </div>
               <button type="submit" id="btn-login" class="btn btn-primary w-100">Adicionar</button>
           </form> 

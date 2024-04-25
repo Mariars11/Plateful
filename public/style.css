@@ -5,10 +5,7 @@
     background-size: cover;
     background-color:black;
 }
-.img-card{
-    width: 250px;
-    height: 250px;
-}
+
 #div-line-id{
     margin-left: 16%;
     justify-content: unset;
@@ -94,16 +91,19 @@ img.img-logo-form {
 .alert.alert-success, .alert-success, .alert-danger{
     margin-top: 25px;
 }
+.card{
+    width: max-content;
+}
 button.btn.btn-danger > span, button.btn.btn-primary > span {
     color: transparent;
     text-shadow: 0 0 0 white;
 }
 .div-price-btns{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 10px;
     align-content: center;
-    margin-top: 15px;
+    margin: 0px 0px 15px 0;
 }
 .body-editarProduto{
     background-color: #333;

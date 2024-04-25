@@ -1,5 +1,7 @@
 const Usuario = require('../model/usuario');
-const Desejo = require('../model/desejo');
+const Estabelecimento = require('../model/estabelecimento');
+const Item = require('../model/item');
+const { where } = require('sequelize');
 
 async function autenticar(req, res){
     const usuario = await Usuario.findOne({ where: {
@@ -59,15 +61,40 @@ function OneUser(req, res) {
             id_user: req.session.usuario.id_user,
         }
     }).then((usuario)=>{
-        Desejo.findAll({
+        Estabelecimento.findAll({
             where: {
                 id_usuario: usuario.id_user,
-                indicador_ativo: 1
             }
-        }).then((desejos)=>{
-            res.render('home.html', {desejos, usuario});
-        }).catch((erro_recupera_desejos)=>{
-            res.render('home.html', {erro_recupera_desejos});
+        }).then((estabelecimentos)=>{
+            res.render('home.html', {estabelecimentos, usuario});
+        }).catch((erro_recupera_estabelecimentos)=>{
+            res.render('home.html', {erro_recupera_estabelecimentos});
+        }); 
+    }).catch((erro_alterar_usuario)=>{
+        res.render('home.html', {erro_alterar_usuario});
+    });  
+}
+function OneUserItem(req, res) {
+    Usuario.findOne({
+        where: {
+            id_user: req.session.usuario.id_user,
+        }
+    }).then((usuario)=>{
+        Estabelecimento.findOne({
+            where: {
+                id_usuario: usuario.id_user,
+                id_estabelecimento: req.params.idEstabelecimento,
+            }
+        }).then((estabelecimentos)=>{
+            Item.findAll({
+                where:{
+                    id_estabelecimento: req.params.idEstabelecimento
+                }
+            }).then((itens)=>{
+                res.render('listaItens.html', {itens, estabelecimentos, usuario});
+            })
+        }).catch((erro_recupera_itens)=>{
+            res.render('listaItens.html', {erro_recupera_itens});
         }); 
     }).catch((erro_alterar_usuario)=>{
         res.render('home.html', {erro_alterar_usuario});
@@ -94,6 +121,7 @@ module.exports = {
     verificarAutenticacao,
     sair,
     OneUser,
+    OneUserItem,
     editarUsuario,
     OneUserEdit
 }
