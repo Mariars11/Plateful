@@ -86,7 +86,7 @@ function excluirItem(req, res) {
     }).then((item)=>{
         item.destroy();
         res.redirect('/lista_itens/' + req.params.idEstabelecimento);
-    }).catch((items)=>{
+    }).catch((erro_recupera_itens)=>{
         res.render('listaItens.html', {erro_recupera_itens});
     }); 
 }

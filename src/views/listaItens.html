@@ -107,11 +107,11 @@
               </div>
               <div class="mb-1">
                 <label for="preco" class="form-label">Preco:</label>
-                <input type="text" placeholder="Informe o preco" class="form-control" id="preco" name="preco">
+                <input type="number" required min="0" placeholder="Informe o preco" class="form-control" id="preco" name="preco">
               </div>
               <div class="mb-1">
                 <label for="nota" class="form-label">Nota:</label>
-                <input type="number" min="0" max="5" placeholder="Informe a nota" class="form-control" id="nota" name="nota">
+                <input required type="number" min="0" max="5" placeholder="Informe a nota" class="form-control" id="nota" name="nota">
               </div>
               <button type="submit" id="btn-login" class="btn btn-primary w-100">Adicionar</button>
           </form> 
