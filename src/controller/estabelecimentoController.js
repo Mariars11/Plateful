@@ -31,9 +31,9 @@ function homeViewOne(req, res) {
                 id_estabelecimento: req.params.id,
             }
         }).then((estabelecimento)=>{
-            res.render('editarDesejo.html', {estabelecimento, usuario});
+            res.render('editarEstabelecimento.html', {estabelecimento, usuario});
         }).catch((erro_recupera_estabelecimentos)=>{
-            res.render('editarDesejo.html', {erro_recupera_estabelecimentos});
+            res.render('editarEstabelecimento.html', {erro_recupera_estabelecimentos});
         }); 
     }).catch((erro_alterar_usuario)=>{
         res.render('home.html', {erro_alterar_usuario});
@@ -70,7 +70,7 @@ function editarEstabelecimento(req, res) {
        
         res.redirect('/home');
     }).catch((erro_recupera_estabelecimentos)=>{
-        res.render('editarDesejo.html', {erro_recupera_estabelecimentos});
+        res.render('editarEstabelecimento.html', {erro_recupera_estabelecimentos});
     }); 
 }
 function excluirEstabelecimento(req, res) {

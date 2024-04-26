@@ -25,6 +25,10 @@ const Item = database.define('item', {
         type: Sequelize.DOUBLE,
         allowNull: false
     },
+    nota: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    }
 });
 
 module.exports = Item;

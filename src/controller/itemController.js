@@ -11,7 +11,7 @@ function homeView(req, res) {
     Item.findAll({
         where: {
             id_usuario: req.session.usuario.id_user,
-            id_estabelecimento: req.session.estabelecimento.idEstabelecimento
+            id_estabelecimento: req.params.idEstabelecimento
         }
     }).then((itens)=>{
         res.render('listaItens.html', {itens});
@@ -29,6 +29,7 @@ function homeViewOne(req, res) {
         Item.findOne({
             where: {
                 id_item: req.params.id,
+                id_estabelecimento: req.params.idEstabelecimento
             }
         }).then((item)=>{
             res.render('editarItem.html', {item, usuario});
@@ -41,14 +42,18 @@ function homeViewOne(req, res) {
     
 }
 function cadastrarItem(req, res) {
+    let idEstabelecimento = String(req.params.idEstabelecimento);
+    console.log(idEstabelecimento);
     let item = {
         titulo: req.body.titulo,
         id_usuario: req.session.usuario.id_user,
+        id_estabelecimento: req.params.idEstabelecimento,
         preco: req.body.preco,
+        nota: req.body.nota
     }
-    if(item.preco != "" && item.titulo != ""){
+    if(item.preco != "" && item.titulo != "" && item.nota != ""){
             Item.create(item).then(()=>{
-                res.redirect('/listaItens');
+                res.redirect('/lista_itens/' + idEstabelecimento);
             }).catch((err)=>{
                 console.log(err);
                 let erro_cadastrar_item = true;
@@ -68,7 +73,7 @@ function editarItem(req, res) {
         }) 
         item.save()
        
-        res.redirect('/listaItens');
+        res.redirect('/lista_itens/' + req.params.idEstabelecimento);
     }).catch((erro_recupera_item)=>{
         res.render('editarItem.html', {erro_recupera_item});
     }); 
@@ -80,7 +85,7 @@ function excluirItem(req, res) {
         }
     }).then((item)=>{
         item.destroy();
-        res.redirect('/home');
+        res.redirect('/lista_itens/' + req.params.idEstabelecimento);
     }).catch((items)=>{
         res.render('listaItens.html', {erro_recupera_itens});
     }); 

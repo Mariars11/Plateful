@@ -85,13 +85,13 @@ function OneUserItem(req, res) {
                 id_usuario: usuario.id_user,
                 id_estabelecimento: req.params.idEstabelecimento,
             }
-        }).then((estabelecimentos)=>{
+        }).then((estabelecimento)=>{
             Item.findAll({
                 where:{
                     id_estabelecimento: req.params.idEstabelecimento
                 }
             }).then((itens)=>{
-                res.render('listaItens.html', {itens, estabelecimentos, usuario});
+                res.render('listaItens.html', {itens, estabelecimento, usuario});
             })
         }).catch((erro_recupera_itens)=>{
             res.render('listaItens.html', {erro_recupera_itens});

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plateful</title>
+    <base href="/">
     <!-- <link rel="icon" href="https://th.bing.com/th/id/OIG.didB9bWiNa1tFf3Z3ny1?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn"> -->
     <link rel="stylesheet" href="style.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -54,7 +55,7 @@
       </div>    
       <div class="row my-4">
         <div class="col-3 mt-3" id="div-cards">
-          {{#items}}
+          {{#itens}}
             <div class="card">
                 <h5 class="card-header">{{titulo}}</h5>
                 <div class="card-body">
@@ -62,23 +63,19 @@
                       <div>
                         <p class="card-text">R$ {{preco}}</p>
                       </div>
+                      <div>
+                        <p class="card-text">Nota: {{nota}}</p>
+                      </div>
                       <div class="btns-edit-del">
                         <div>
-                          <form action="/ver_itens/{{id_estabelecimento}}/" method="get">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                              <span aria-hidden="true">👁️</span>
-                            </button>
-                          </form> 
-                        </div>
-                        <div>
-                          <form action="/editar_desejo/{{id_estabelecimento}}/" method="get">
+                          <form action="/editar_item/{{id_estabelecimento}}/{{id_item}}/" method="get">
                             <button type="submit" class="btn btn-primary btn-sm">
                               <span aria-hidden="true">✏️</span>
                             </button>
                           </form> 
                         </div>
                         <div>
-                          <form action="/excluir_desejo/{{id_estabelecimento}}" method="post">
+                          <form action="/excluir_item/{{id_estabelecimento}}/{{id_item}}" method="post">
                             <button type="submit" class="btn btn-danger btn-sm">
                               <span aria-hidden="true">✖️</span>
                             </button>
@@ -88,7 +85,7 @@
                     </div>
                 </div>
             </div>
-            {{/items}}
+            {{/itens}}
         </div>
       </div>
     </div>
@@ -102,7 +99,8 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="/cadastrar_desejo" method="post">
+            {{#estabelecimento}}
+            <form action="/cadastrar_item/{{id_estabelecimento}}" method="post">
               <div class="mb-1 mt-1">
                 <label for="titulo" class="form-label">Titulo:</label>
                 <input required type="text" class="form-control" id="titulo" placeholder="Informe o titulo do produto" name="titulo">
@@ -111,8 +109,13 @@
                 <label for="preco" class="form-label">Preco:</label>
                 <input type="text" placeholder="Informe o preco" class="form-control" id="preco" name="preco">
               </div>
+              <div class="mb-1">
+                <label for="nota" class="form-label">Nota:</label>
+                <input type="number" min="0" max="5" placeholder="Informe a nota" class="form-control" id="nota" name="nota">
+              </div>
               <button type="submit" id="btn-login" class="btn btn-primary w-100">Adicionar</button>
           </form> 
+          {{/estabelecimento}}
           </div>
         </div>
       </div>
