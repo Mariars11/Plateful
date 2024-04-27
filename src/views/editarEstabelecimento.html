@@ -29,9 +29,6 @@
                 <p>Produtos</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/comprados"><p>Comprados</p></a>
-            </li>
             {{#usuario}}
             <li class="nav-item">
               <a class="nav-link" href="/editar_perfil/{{id_user}}"><p>Editar Perfil</p></a>
@@ -46,36 +43,25 @@
     <div class="main-content">
       <div class="div-line-h1-btn" id="div-line-id">
         <div>
-          <h1>Editar desejo</h1>
+          <h1>Editar Estabelecimento</h1>
         </div>
       </div>    
       <div class="row my-4" id="div-form-edit-row">
-        {{#desejo}}
+        {{#estabelecimento}}
         <div class="div-form-edit">
-          <form action="/editar_desejo/{{id_des}}/" method="post">
+          <form action="/editar_estabelecimento/{{id_estabelecimento}}/" method="post">
               <div class="mb-1 mt-1">
                 <label for="titulo" class="form-label">Titulo:</label>
-                <input type="text" class="form-control" value="{{titulo}}" id="titulo" placeholder="Informe o titulo do produto desejado" name="titulo">
+                <input type="text" class="form-control" value="{{nome}}" id="nome" placeholder="Informe o nome do estabelecimento" name="nome">
               </div>
               <div class="mb-1">
-                <label for="preco" class="form-label">Preço:</label>
-                <input type="text" value="{{preco}}" placeholder="Informe o preço" class="form-control" id="preco" name="preco">
+                <label for="preco" class="form-label">Unidade:</label>
+                <input type="text" value="{{unidade}}" placeholder="Informe a unidade" class="form-control" id="unidade" name="unidade">
               </div>
-              <div class="mb-1">
-                <label for="url" class="form-label">Url da Imagem:</label>
-                <textarea type="text" placeholder="Copie e cole aqui, o link de uma imagem do produto" class="form-control" id="url_imagem" name="url_imagem">{{url_imagem}}</textarea>
-              </div>
-              <div class="mb-1">
-                <label for="indicador" class="form-label">Item comprado?</label>
-                <select name="indicador_ativo" class="form-select">
-                  <option  value="1">Não</option>
-                  <option value="0">Sim</option>
-                </select>
-              </div>
-              <button type="submit" id="btn-login" class="btn btn-primary w-100">Editar Produto</button>
+              <button type="submit" id="btn-login" class="btn btn-primary w-100">Editar Estabelecimento</button>
           </form>
         </div>
-        {{/desejo}}
+        {{/estabelecimento}}
       </div>
     </div>
   </div>

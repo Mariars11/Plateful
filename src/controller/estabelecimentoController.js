@@ -67,7 +67,6 @@ function editarEstabelecimento(req, res) {
             unidade: req.body.unidade,
         }) 
         estabelecimento.save()
-       
         res.redirect('/home');
     }).catch((erro_recupera_estabelecimentos)=>{
         res.render('editarEstabelecimento.html', {erro_recupera_estabelecimentos});
