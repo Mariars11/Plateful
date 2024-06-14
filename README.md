@@ -7,8 +7,12 @@
 
 > npm install
 
-## Para rodar
+## Para rodar projeto
 > node index.js
+
+## Para rodar teste
+> cd ./Test
+> robot web.robot
 # Estrutura do Projeto
 ## Public
 *   Imagens e estilo
