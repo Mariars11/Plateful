@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const database = require('../db');
 const { type } = require('express/lib/response');
+const sequelize = require('../db');
 
 const Item = database.define('item', {
     id_item: {
@@ -25,7 +26,23 @@ const Item = database.define('item', {
         type: Sequelize.DOUBLE,
         allowNull: false
     },
+    url_imagem:{
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    flag_consumido: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true
+    },
+    avaliacao_usuario: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
     nota: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+    },
+    id_categoria:{
         type: Sequelize.INTEGER,
         allowNull: false
     }

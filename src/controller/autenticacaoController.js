@@ -1,6 +1,9 @@
 const Usuario = require('../model/usuario');
 const Estabelecimento = require('../model/estabelecimento');
 const Item = require('../model/item');
+const Estado = require('../model/estado');
+const Categoria = require('../model/categoria');
+const TipoUsuario = require('../model/tipoUsuario');
 const { where } = require('sequelize');
 
 async function autenticar(req, res){
@@ -111,6 +114,7 @@ function OneUserEdit(req, res) {
         res.render('editarPerfil.html', {erro});
     });  
 }
+
 function sair(req, res) {
     req.session.destroy();
     res.redirect('/');
