@@ -1,26 +1,46 @@
 const Usuario = require('../model/usuario');
-
-function cadastrarUsuario(req, res) {
+const TipoUsuario = require('../model/tipoUsuario');
+async function cadastrarUsuario(req, res) {
+    let tipoUsuario = await TipoUsuario.findOne({where: {
+        descricao: req.body.tipoUsuario
+    }});
+    let isCliente = req.body.tipoUsuario === 'Cliente';
     let usuario = {
         email: req.body.email,
         senha: req.body.senha,
         nome: req.body.nome,
-        data_nascimento: req.body.data_nascimento
+        nome_fantasia: req.body.nomeFantasia,
+        CNPJ: req.body.cnpj,
+        id_tipo_usuario: tipoUsuario.id
     }
-    if(usuario.email != "" && usuario.data_nascimento != ""
-    && usuario.nome != "" && usuario.senha){
+    if(usuario.email != "" && usuario.senha && usuario.id_tipo_usuario != ""){
         Usuario.create(usuario).then(()=>{
             let sucesso = true;
-            res.render("index.html", {sucesso});
+            if(isCliente){
+                res.render("loginConsumidor.html", {sucesso});
+            }
+            else{
+                res.render("loginRestaurante.html", {sucesso});
+            }
         }).catch((err)=>{
             console.log(err);
             let erro = true;
-            res.render("index.html", {erro});
+            if(isCliente){
+                res.render("loginConsumidor.html", {erro});
+            }
+            else{
+                res.render("loginRestaurante.html", {erro});
+            }
         });
     }
     else{
         let erro = true;
-        res.render("cadastro.html", {erro});
+        if(isCliente){
+            res.render("cadastro.html", {erro});
+        }
+        else{
+            res.render("cadastroRestaurante.html", {erro});
+        }
     }
     
 

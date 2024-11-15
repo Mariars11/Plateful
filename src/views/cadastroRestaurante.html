@@ -24,16 +24,20 @@
               </div>
               <form action="/cadastrar_usuario" method="post">
                 <div class="mb-1">
-                  <input hidden name="tipoUsuario" value="Cliente">
+                  <input hidden name="tipoUsuario" value="Estabelecimento">
                 </div>
                 <div class="mb-1">
-                  <label for="nome" class="form-label">Nome:</label>
-                  <input required placeholder="Informe o nome completo" type="text" class="form-control" id="nome" name="nome">
+                  <label for="nomeFantasia" class="form-label">Nome Fantasia:</label>
+                  <input required placeholder="Informe o nome fantasia" type="text" class="form-control" id="nomeFantasia" name="nomeFantasia">
                 </div>
                 <div class="mb-1 mt-1">
                   <label for="email" class="form-label">Email:</label>
                   <input required placeholder="Informe um e-mail válido" type="email" class="form-control" id="email" name="email">
                 </div>
+                <div class="mb-1">
+                    <label for="cnpj" class="form-label">CNPJ:</label>
+                    <input required placeholder="Informe o nome fantasia" type="text" class="form-control" id="cnpj" name="cnpj">
+                  </div>
                 <div class="mb-1">
                   <label for="senha" class="form-label">Senha:</label>
                   <input  required type="password" placeholder="Informe a senha" class="form-control" id="senha" name="senha">

@@ -5,9 +5,6 @@ const Estabelecimento = require('../model/estabelecimento');
 function indexView(req, res) {
     res.render('index.html');
 }
-function cadastroView(req, res) {
-    res.render('cadastro.html');
-}
 function homeView(req, res) {
     Estabelecimento.findAll({
         where: {
@@ -89,7 +86,6 @@ module.exports = {
     homeView,
     homeViewOne,
     cadastrarEstabelecimento,
-    cadastroView,
     editarEstabelecimento,
     excluirEstabelecimento,
 }

@@ -10,8 +10,7 @@ const Usuario = database.define('usuario', {
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
+        allowNull: false
     },
     senha: {
         type: Sequelize.STRING,

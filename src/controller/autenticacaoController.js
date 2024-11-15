@@ -6,10 +6,27 @@ const Categoria = require('../model/categoria');
 const TipoUsuario = require('../model/tipoUsuario');
 const { where } = require('sequelize');
 
-async function autenticar(req, res){
+function loginConsumidorView(req, res) {
+    res.render('loginConsumidor.html');
+}
+function loginRestauranteView(req, res) {
+    res.render('loginRestaurante.html');
+}
+function cadastroConsumidorView(req, res){
+    res.render('cadastro.html');
+}
+function cadastroRestauranteView(req, res){
+    res.render('cadastroRestaurante.html');
+}
+async function autenticar(req, res){   
+    let tipoUsuario = await TipoUsuario.findOne({where: {
+        descricao: req.body.tipoUsuario
+    }});
     const usuario = await Usuario.findOne({ where: {
         email: req.body.email, 
-        senha: req.body.senha}
+        senha: req.body.senha,
+        id_tipo_usuario: tipoUsuario.id
+        }
     });
     if(usuario !== null){
         req.session.autorizado = true;
@@ -18,7 +35,12 @@ async function autenticar(req, res){
     }
     else{
         let erro_autenticacao = true;
-        res.render('index.html', {erro_autenticacao});
+        if(req.body.tipoUsuario === 'Cliente'){
+            res.render('loginConsumidor.html', {erro_autenticacao});
+        }
+        else{
+            res.render('loginRestaurante.html', {erro_autenticacao});
+        }
     }
 }
 
@@ -127,5 +149,9 @@ module.exports = {
     OneUser,
     OneUserItem,
     editarUsuario,
-    OneUserEdit
+    OneUserEdit,
+    loginConsumidorView,
+    loginRestauranteView,
+    cadastroConsumidorView,
+    cadastroRestauranteView
 }

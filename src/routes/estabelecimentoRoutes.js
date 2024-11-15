@@ -5,7 +5,6 @@ const estabelecimentoControler = require('../controller/estabelecimentoControlle
 const autenticacaoController = require('../controller/autenticacaoController');
 
 router.get('/', estabelecimentoControler.indexView);
-router.get('/cadastrar', estabelecimentoControler.cadastroView);
 router.get('/home',  autenticacaoController.verificarAutenticacao, autenticacaoController.OneUser, estabelecimentoControler.homeView);
 router.post('/cadastrar_estabelecimento', autenticacaoController.verificarAutenticacao, estabelecimentoControler.cadastrarEstabelecimento)
 router.get('/editar_estabelecimento/:id', autenticacaoController.verificarAutenticacao, estabelecimentoControler.homeViewOne)
