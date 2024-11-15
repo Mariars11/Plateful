@@ -21,6 +21,10 @@ const Estabelecimento = database.define('estabelecimento', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    endereco:{
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     unidade: {
         type: Sequelize.STRING,
         allowNull: true
