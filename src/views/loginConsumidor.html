@@ -13,8 +13,8 @@
       <div style="background-color: black; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
         <div>
           <a class="nav-link" href="/">
-            <img style="padding: 10px;object-fit: contain; height: 100px; width: 100px;" src="/img/logo.png" alt="logo do plateful" srcset="">
-           </a> 
+            <img style="padding: 10px;object-fit: contain; height: 100px; width: 200px;" src="/img/logo.png" alt="logo do plateful" srcset="">
+          </a> 
           </div>
         <div>
             <ul class="nav justify-content-end">
@@ -27,9 +27,11 @@
             </ul>
         </div>
       </div>
-      <!-- #24394E -->
-      <div class="div-form">
-          <div class="div-form-title">
+      <div class="div-img-text" style="display: flex; flex-direction: row;">
+        <div class="div-img-home" style="padding: 40px;">
+            <img style="object-fit: cover;" src="/img/imgConsumidor.png" alt="Imagem de uma sopa" srcset="">
+        </div>
+          <div style="display: flex; flex-direction: column; padding: 50px; justify-content: center;">
             {{#sucesso}}
                     <div class="alert alert-success">
                       Usuário cadastrado com sucesso!
@@ -66,9 +68,9 @@
             </form> 
             <form action="LoginRestaurante" method="get">
               <button class="btn btn-secondary w-100">Sou restaurante</button>
-
             </form>
           </div>
+        </div>
       </div>
     </body>
 </html>

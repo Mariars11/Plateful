@@ -13,8 +13,8 @@
       <div style="background-color: black; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
         <div>
           <a class="nav-link" href="/">
-            <img style="padding: 10px;object-fit: contain; height: 100px; width: 100px;" src="/img/logo.png" alt="logo do plateful" srcset="">
-           </a> 
+            <img style="padding: 10px;object-fit: contain; height: 100px; width: 200px;" src="/img/logo.png" alt="logo do plateful" srcset="">
+          </a> 
           </div>
         <div>
             <ul class="nav justify-content-end">
@@ -28,46 +28,49 @@
         </div>
       </div>
       <!-- #24394E -->
-      <div class="div-form">
-          <div class="div-form-title">
-            {{#sucesso}}
-                    <div class="alert alert-success">
-                      Restaurante cadastrado com sucesso!
-                    </div>
-                {{/sucesso}}
-                {{#erro}}
+      <div class="div-img-text" style="display: flex; flex-direction: row;">
+          <div style="display: flex; flex-direction: column; padding: 50px; justify-content: center;">
+              {{#sucesso}}
+                      <div class="alert alert-success">
+                        Restaurante cadastrado com sucesso!
+                      </div>
+                  {{/sucesso}}
+                  {{#erro}}
+                      <div class="alert alert-danger">
+                        Erro ao cadastrar restaurante!
+                      </div>
+                  {{/erro}}
+                  {{#erro_autenticacao}}
                     <div class="alert alert-danger">
-                      Erro ao cadastrar restaurante!
+                      Erro ao autenticar restaurante!
                     </div>
-                {{/erro}}
-                {{#erro_autenticacao}}
-                  <div class="alert alert-danger">
-                    Erro ao autenticar restaurante!
+                  {{/erro_autenticacao}}
+                <div class="div-title">
+                  <!-- <img class="img-logo-form" alt="logo do site" src="https://th.bing.com/th/id/OIG.didB9bWiNa1tFf3Z3ny1?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn"> -->
+                  <h1>Sou restaurante</h1>
+                </div>
+                <form action="/autenticar" method="post">
+                  <div>
+                    <input type="hidden" name="tipoUsuario" value="Estabelecimento">
                   </div>
-                {{/erro_autenticacao}}
-              <div class="div-title">
-                <!-- <img class="img-logo-form" alt="logo do site" src="https://th.bing.com/th/id/OIG.didB9bWiNa1tFf3Z3ny1?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn"> -->
-                <h1>Sou restaurante</h1>
-              </div>
-              <form action="/autenticar" method="post">
-                <div>
-                  <input type="hidden" name="tipoUsuario" value="Estabelecimento">
-                </div>
-                <div class="mb-1 mt-1">
-                  <label for="email" class="form-label">Email:</label>
-                  <input type="email" class="form-control" id="email" placeholder="Informe o e-mail" name="email">
-                </div>
-                <div class="mb-1">
-                  <label for="senha" class="form-label">Senha:</label>
-                  <input type="password" placeholder="Informe a Senha" class="form-control" id="senha" name="senha">
-                </div>
-                <p>Não possui cadastro? <a class="a-link" href="/CadastrarRestaurante">Cadastre-se</a></p>
-                <button type="submit" id="btn-login" class="btn btn-primary w-100">Entrar</button>
-            </form> 
-            <form action="Login" method="get">
-              <button class="btn btn-secondary w-100">Sou consumidor</button>
-            </form>
+                  <div class="mb-1 mt-1">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email" placeholder="Informe o e-mail" name="email">
+                  </div>
+                  <div class="mb-1">
+                    <label for="senha" class="form-label">Senha:</label>
+                    <input type="password" placeholder="Informe a Senha" class="form-control" id="senha" name="senha">
+                  </div>
+                  <p>Não possui cadastro? <a class="a-link" href="/CadastrarRestaurante">Cadastre-se</a></p>
+                  <button type="submit" id="btn-login" class="btn btn-primary w-100">Entrar</button>
+              </form> 
+              <form action="Login" method="get">
+                <button class="btn btn-secondary w-100">Sou consumidor</button>
+              </form>
           </div>
+          <div class="div-img-home" style="padding: 40px;">
+            <img style="object-fit: cover;" src="/img/imgRestaurante.png" alt="Imagem de uma sopa" srcset="">
+        </div>
       </div>
     </body>
 </html>

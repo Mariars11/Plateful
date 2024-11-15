@@ -9,6 +9,7 @@ async function cadastrarUsuario(req, res) {
         email: req.body.email,
         senha: req.body.senha,
         nome: req.body.nome,
+        endereco: req.body.endereco,
         nome_fantasia: req.body.nomeFantasia,
         CNPJ: req.body.cnpj,
         id_tipo_usuario: tipoUsuario.id

@@ -51,7 +51,6 @@ web_modules/
 
 #xml
 *.xml
-*.png
 *.jpeg
 
 Test/*.html
