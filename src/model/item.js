@@ -34,14 +34,6 @@ const Item = database.define('item', {
         type: Sequelize.BOOLEAN,
         allowNull: true
     },
-    avaliacao_usuario: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    nota: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-    },
     id_categoria:{
         type: Sequelize.INTEGER,
         allowNull: false

@@ -36,14 +36,6 @@ const Estabelecimento = database.define('estabelecimento', {
     id_item: {
         type: Sequelize.INTEGER,
         allowNull: true
-    },
-    avaliacao_usuario: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    nota_usuario: {
-        type: Sequelize.INTEGER,
-        allowNull: true
     }
 });
 

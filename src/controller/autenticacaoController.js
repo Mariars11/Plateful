@@ -4,6 +4,9 @@ const Item = require('../model/item');
 const Estado = require('../model/estado');
 const Categoria = require('../model/categoria');
 const TipoUsuario = require('../model/tipoUsuario');
+const AvaliacaoEstabelecimento = require('../model/avaliacaoEstabelecimento');
+const AvaliacaoItem = require('../model/avaliacaoItem');
+
 const { where } = require('sequelize');
 
 function loginConsumidorView(req, res) {
