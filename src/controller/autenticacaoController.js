@@ -1,8 +1,6 @@
 const Usuario = require('../model/usuario');
 const Estabelecimento = require('../model/estabelecimento');
 const Item = require('../model/item');
-const Estado = require('../model/estado');
-const Categoria = require('../model/categoria');
 const TipoUsuario = require('../model/tipoUsuario');
 const AvaliacaoEstabelecimento = require('../model/avaliacaoEstabelecimento');
 const AvaliacaoItem = require('../model/avaliacaoItem');
@@ -25,6 +23,7 @@ async function autenticar(req, res){
     let tipoUsuario = await TipoUsuario.findOne({where: {
         descricao: req.body.tipoUsuario
     }});
+    let isCliente = req.body.tipoUsuario === 'Cliente';
     const usuario = await Usuario.findOne({ where: {
         email: req.body.email, 
         senha: req.body.senha,
@@ -34,11 +33,16 @@ async function autenticar(req, res){
     if(usuario !== null){
         req.session.autorizado = true;
         req.session.usuario = usuario;
-        res.redirect('/home');
+        if(isCliente){
+            res.redirect('/home');
+        }
+        else{
+            res.redirect('/homeRestaurante');
+        }
     }
     else{
         let erro_autenticacao = true;
-        if(req.body.tipoUsuario === 'Cliente'){
+        if(isCliente){
             res.render('loginConsumidor.html', {erro_autenticacao});
         }
         else{

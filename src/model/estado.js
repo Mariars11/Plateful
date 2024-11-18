@@ -15,7 +15,7 @@ const Estado = database.define('estado', {
     }
 });
 async function CriarEstados(){
-    await Estado.sync({ force: true })
+    await Estado.sync()
     let valores = ['Anúncio', 'Quero ir', 'Já fui', 'N/A'];
 
     valores.map(async item => {

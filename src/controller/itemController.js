@@ -1,4 +1,6 @@
+const Estabelecimento = require('../model/estabelecimento');
 const Item = require('../model/item');
+const Categoria = require('../model/categoria');
 const Usuario = require('../model/usuario');
 
 function indexView(req, res) {
@@ -7,16 +9,16 @@ function indexView(req, res) {
 function cadastroView(req, res) {
     res.render('cadastro.html');
 }
-function homeView(req, res) {
+function homeViewItem(req, res) {
     Item.findAll({
         where: {
-            id_usuario: req.session.usuario.id_user,
-            id_estabelecimento: req.params.idEstabelecimento
-        }
+            id_usuario: req.session.usuario.id_user
+        }        
     }).then((itens)=>{
-        res.render('listaItens.html', {itens});
+        console.log(itens);
+        res.render('homeRestaurante.html', {itens});
     }).catch((erro_recupera_itens)=>{
-        res.render('listaItens.html', {erro_recupera_itens});
+        res.render('homeRestaurante.html', {erro_recupera_itens});
     }); 
 }
 
@@ -42,6 +44,13 @@ function homeViewOne(req, res) {
     
 }
 function cadastrarItem(req, res) {
+    let estabelecimento = Estabelecimento.findOne({
+        where: {
+            id_estabelecimento: req.params.idEstabelecimento
+        }
+    });
+    let categorias = Categoria.findAll({
+    });
     let idEstabelecimento = String(req.params.idEstabelecimento);
     console.log(idEstabelecimento);
     let item = {
@@ -49,15 +58,20 @@ function cadastrarItem(req, res) {
         id_usuario: req.session.usuario.id_user,
         id_estabelecimento: req.params.idEstabelecimento,
         preco: req.body.preco,
-        nota: req.body.nota
+        nota: req.body.nota,
+        url_imagem: req.body.imagem,
+        id_categoria: req.body.categoria
     }
-    if(item.preco != "" && item.titulo != "" && item.nota != ""){
+    if(item.preco != "" && item.titulo != "" && item.nota != "" && item.id_categoria != 0){
             Item.create(item).then(()=>{
-                res.redirect('/lista_itens/' + idEstabelecimento);
+                let sucessItem = true;
+                // res.render("homeRestaurante.html", estabelecimento, categorias);
+                res.redirect("/homeRestaurante", estabelecimento, categorias, sucessItem);
+
             }).catch((err)=>{
                 console.log(err);
                 let erro_cadastrar_item = true;
-                res.render("listaItens.html", {erro_cadastrar_item});
+                res.render("homeRestaurante.html", {erro_cadastrar_item});
             });
         }
 }
@@ -92,7 +106,7 @@ function excluirItem(req, res) {
 }
 module.exports = {
     indexView,
-    homeView,
+    homeViewItem,
     homeViewOne,
     cadastrarItem,
     cadastroView,

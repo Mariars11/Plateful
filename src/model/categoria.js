@@ -15,7 +15,7 @@ const Categoria = database.define('categoria', {
     }
 });
 async function CriarCategoria(){
-    await Categoria.sync({ force: true })
+    await Categoria.sync()
     let valores = ['Entrada', 'Prato Principal', 'Sobremesa', 'Bebida'];
 
     valores.map(async item => {

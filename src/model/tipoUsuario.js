@@ -15,7 +15,7 @@ const TipoUsuario = database.define('tipo_usuario', {
     }
 });
 async function CriarTipoUsuarios(){
-    await TipoUsuario.sync({ force: true })
+    await TipoUsuario.sync()
     let valores = ['Cliente', 'Estabelecimento'];
 
     valores.map(async item => {
