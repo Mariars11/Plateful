@@ -32,7 +32,7 @@
             <div class="div-info-restaurante" style="display: flex; flex-direction: column; align-items: center; padding: 50px 20% 0 20%;">
               <div style="align-self: flex-start;">
                 <h3>Meu perfil</h3>
-                <!-- <img src="" alt="" srcset=""> -->
+                <img src="{{url_imagem_estabelecimento}}" alt="Logo {{nome}}" />
               </div>
               <div class="div-nome-restaurante" style="align-self: flex-start;">
                 <h1>{{nome}}</h1>
@@ -45,15 +45,12 @@
                   <p>{{descricao}}</p>
                 </div>
               </div>
-              <div class="cardapio" style="align-self: flex-start;">
-                <div class="div-title-btn">
-                  <div>
+              <div class="cardapio" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between; margin-top: 50px;">
+                <div>
+                  <div class="div-title-btn" style="padding-bottom: 20px;">
                     <div><h2>Cardápio</h2></div>
-                    <div>
-                      <button type="button" id="btn-addItem">Adicionar</button>
-                    </div>
                   </div>
-                  <div>
+                  <div style="padding-top: 10px;">
                     <h3>Entradas</h3>
                     <hr>
                     {{#itensEntrada}}
@@ -69,7 +66,7 @@
                     </div>
                     {{/itensEntrada}}
                   </div>
-                  <div>
+                  <div style="padding-top: 10px;">
                     <h3>Pratos Principais</h3>
                     <hr>
                     {{#itensPrincipal}}
@@ -85,6 +82,41 @@
                     </div>
                     {{/itensPrincipal}}
                   </div>
+                  <div style="padding-top: 10px;">
+                    <h3>Bebidas</h3>
+                    <hr>
+                    {{#itensBebida}}
+                    <div class="card">
+                        <h5 class="card-header">{{titulo}}</h5>
+                        <div class="card-body">
+                            <div class="div-price-btns">
+                              <div>
+                                <p class="card-text">R$ {{preco}}</p>
+                              </div>                              
+                            </div>
+                        </div>
+                    </div>
+                    {{/itensBebida}}
+                  </div>
+                  <div style="padding-top: 10px;">
+                    <h3>Sobremesas</h3>
+                    <hr>
+                    {{#itensSobremesa}}
+                    <div class="card">
+                        <h5 class="card-header">{{titulo}}</h5>
+                        <div class="card-body">
+                            <div class="div-price-btns">
+                              <div>
+                                <p class="card-text">R$ {{preco}}</p>
+                              </div>                              
+                            </div>
+                        </div>
+                    </div>
+                    {{/itensSobremesa}}
+                  </div>
+                </div>
+                <div>
+                  <button class="btn btn-primary w-100" type="button" id="btn-addItem">Adicionar</button>
                 </div>
               </div>
             </div>
@@ -105,7 +137,7 @@
                   </div>
                   <div class="mb-1 mt-1">
                     <label for="imagem" class="form-label">Descrição:</label>
-                    <textarea id="descricao" placeholder="Descreve o seu restaurante." name="descricao"></textarea>
+                    <textarea id="descricao" class="form-control" placeholder="Descreve o seu restaurante." name="descricao"></textarea>
                   </div>
                   <div class="mb-1 mt-1">
                     <label for="imagem" class="form-label">Imagem:</label>

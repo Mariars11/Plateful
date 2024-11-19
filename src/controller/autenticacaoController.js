@@ -1,6 +1,8 @@
 const Usuario = require('../model/usuario');
 const Estabelecimento = require('../model/estabelecimento');
 const Item = require('../model/item');
+const Estado = require('../model/estado');
+
 const TipoUsuario = require('../model/tipoUsuario');
 const AvaliacaoEstabelecimento = require('../model/avaliacaoEstabelecimento');
 const AvaliacaoItem = require('../model/avaliacaoItem');
@@ -34,7 +36,19 @@ async function autenticar(req, res){
         req.session.autorizado = true;
         req.session.usuario = usuario;
         if(isCliente){
-            res.redirect('/home');
+            let tu_estabelecimento = await TipoUsuario.findOne({where: {
+                descricao: 'Estabelecimento'
+            }});
+            let tu_cliente = await TipoUsuario.findOne({where: {
+                descricao: 'Cliente'
+            }});
+            await Estabelecimento.findAll({
+                where: {
+                    id_tipo_usuario: tu_estabelecimento.id
+                }}).then(async (estabelecimentos) =>{
+                    await CriarEstabelecimentosCliente(estabelecimentos, usuario, tu_cliente);
+                })
+            await res.redirect('/home');
         }
         else{
             res.redirect('/homeRestaurante');
@@ -50,7 +64,32 @@ async function autenticar(req, res){
         }
     }
 }
-
+async function CriarEstabelecimentosCliente(estabelecimentos, cliente, tu_cliente){
+    await estabelecimentos.map(async est =>{
+        let estabelecimento = await Estabelecimento.findOne(
+        { 
+            where: { id_usuario: cliente.id_user, nome: est.nome } 
+        });
+        if(estabelecimento === null){
+            let estadoAnuncio = await Estado.findOne({
+                where: {
+                    descricao: 'Anúncio'
+                }
+            });
+            let estCliente = {
+                nome: est.nome,
+                id_usuario: cliente.id_user,
+                unidade: est.unidade,
+                id_tipo_usuario: tu_cliente.id,
+                descricao: est.descricao,
+                id_estado: estadoAnuncio.id,
+                url_imagem_estabelecimento: est.imagem,
+                endereco: est.endereco,
+            };
+            await Estabelecimento.create(estCliente);
+        }
+    });
+}
 function verificarAutenticacao(req, res, next) {
     if(req.session.autorizado){
         console.log("usuário autorizado");
@@ -87,25 +126,25 @@ function editarUsuario(req, res) {
         res.render('editarPerfil.html', {erro});
     }); 
 }
-function OneUser(req, res) {
-    Usuario.findOne({
-        where: {
-            id_user: req.session.usuario.id_user,
-        }
-    }).then((usuario)=>{
-        Estabelecimento.findAll({
-            where: {
-                id_usuario: usuario.id_user,
-            }
-        }).then((estabelecimentos)=>{
-            res.render('home.html', {estabelecimentos, usuario});
-        }).catch((erro_recupera_estabelecimentos)=>{
-            res.render('home.html', {erro_recupera_estabelecimentos});
-        }); 
-    }).catch((erro_alterar_usuario)=>{
-        res.render('home.html', {erro_alterar_usuario});
-    });  
-}
+// function OneUser(req, res) {
+//     Usuario.findOne({
+//         where: {
+//             id_user: req.session.usuario.id_user,
+//         }
+//     }).then((usuario)=>{
+//         Estabelecimento.findAll({
+//             where: {
+//                 id_usuario: usuario.id_user,
+//             }
+//         }).then((estabelecimentos)=>{
+//             res.render('home.html', {estabelecimentos, usuario});
+//         }).catch((erro_recupera_estabelecimentos)=>{
+//             res.render('home.html', {erro_recupera_estabelecimentos});
+//         }); 
+//     }).catch((erro_alterar_usuario)=>{
+//         res.render('home.html', {erro_alterar_usuario});
+//     });  
+// }
 function OneUserItem(req, res) {
     Usuario.findOne({
         where: {
@@ -153,7 +192,6 @@ module.exports = {
     autenticar,
     verificarAutenticacao,
     sair,
-    OneUser,
     OneUserItem,
     editarUsuario,
     OneUserEdit,

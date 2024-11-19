@@ -2,6 +2,7 @@ const Item = require('../model/item');
 const Usuario = require('../model/usuario');
 const Categoria = require('../model/categoria');
 const Estado = require('../model/estado');
+const TipoUsuario = require('../model/tipoUsuario');
 const Estabelecimento = require('../model/estabelecimento');
 const { where } = require('sequelize');
 
@@ -20,37 +21,39 @@ async function homeViewRestaurante(req, res){
         let sobremesa = await Categoria.findOne({where:{descricao: 'Sobremesa'}});
 
         Categoria.findAll({}).then((categorias)=>{
-            Item.findAll({
-                where:{
-                    id_usuario: req.session.usuario.id_user,
-                    id_estabelecimento: restaurante.id_estabelecimento
-                },
-            }).then((itens)=>{
-                let itensEntrada = itens.filter(({id_categoria}) => id_categoria === entrada.id);
-                let itensPrincipal = itens.filter(({id_categoria}) => id_categoria === pratoPrincipal.id);
-                let itensBebida = itens.filter(({id_categoria}) => id_categoria === bebida.id);
-                let itensSobremesa = itens.filter(({id_categoria}) => id_categoria === sobremesa.id);
-                
-                res.render('homeRestaurante.html', {restaurante, categorias, itensEntrada,itensPrincipal, itensBebida, itensSobremesa});
-            })
+            if(restaurante !== null){
+                Item.findAll({
+                    where:{
+                        id_usuario: req.session.usuario.id_user,
+                        id_estabelecimento: restaurante.id_estabelecimento
+                    },
+                }).then((itens)=>{
+                    let itensEntrada = itens.filter(({id_categoria}) => id_categoria === entrada.id);
+                    let itensPrincipal = itens.filter(({id_categoria}) => id_categoria === pratoPrincipal.id);
+                    let itensBebida = itens.filter(({id_categoria}) => id_categoria === bebida.id);
+                    let itensSobremesa = itens.filter(({id_categoria}) => id_categoria === sobremesa.id);
+                    
+                    res.render('homeRestaurante.html', {restaurante, categorias, itensEntrada,itensPrincipal, itensBebida, itensSobremesa});
+                })
+            }
+            else{
+                res.render('homeRestaurante.html', {restaurante, categorias});
+            }
+            
         })
     }).catch((erro_recupera_estabelecimento)=>{
         res.render('homeRestaurante.html', {erro_recupera_estabelecimento});
     });
 }
-
-function homeView(req, res) {
+async function homeView(req, res){    
     Estabelecimento.findAll({
-        where: {
-            id_usuario: req.session.usuario.id_user,
-        }
-    }).then((estabelecimentos)=>{
-        res.render('home.html', {estabelecimentos});
-    }).catch((erro_recupera_estabelecimentos)=>{
-        res.render('home.html', {erro_recupera_estabelecimentos});
-    }); 
+            where: {id_usuario: req.session.usuario.id_user}
+        }).then((estabelecimentosCliente) =>{
+            res.render('home.html', {estabelecimentosCliente}); 
+        }).catch((erro_recupera_estabelecimentos)=>{
+            res.render('home.html', {erro_recupera_estabelecimentos});
+        });
 }
-
 function homeViewOne(req, res) {
     Usuario.findOne({
         where: {
@@ -71,9 +74,22 @@ function homeViewOne(req, res) {
     });
     
 }
+
+async function FindAllEstabelecimentos(res, req){
+    await Estabelecimento.findAll({
+        where: {id_usuario: req.session.usuario.id_user}
+    }).then((estabelecimentosCliente) =>{
+        res.render('home.html', {estabelecimentosCliente}); 
+    }).catch((erro_recupera_estabelecimentos)=>{
+        res.render('home.html', {erro_recupera_estabelecimentos});
+    });
+}
 async function cadastrarEstabelecimento(req, res) {
     let estadoNA = await Estado.findOne({where: {
         descricao: 'N/A'
+    }});
+    let tu_estabelecimento = await TipoUsuario.findOne({where: {
+        descricao: 'Estabelecimento'
     }});
     let estabelecimento = {
         nome: req.body.nome,
@@ -81,6 +97,7 @@ async function cadastrarEstabelecimento(req, res) {
         unidade: req.body.unidade,
         descricao: req.body.descricao,
         id_estado: estadoNA.id,
+        id_tipo_usuario: tu_estabelecimento.id,
         url_imagem_estabelecimento: req.body.imagem,
         endereco: req.body.endereco,
     }
