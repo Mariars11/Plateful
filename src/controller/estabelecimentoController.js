@@ -6,7 +6,6 @@ const TipoUsuario = require('../model/tipoUsuario');
 const Estabelecimento = require('../model/estabelecimento');
 const EstadoClienteEstabelecimento = require('../model/estado_cliente_estabelecimento');
 const { where, Op } = require('sequelize');
-const AvaliacaoEstabelecimento = require('../model/avaliacaoEstabelecimento');
 
 function indexView(req, res) {
     res.render('index.html');

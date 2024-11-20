@@ -1,7 +1,7 @@
 const AvaliacaoEstabelecimento = require('../model/avaliacaoEstabelecimento');
+const AvaliacaoItem = require('../model/avaliacaoItem');
 
-
-async function addAvaliacao(req, res){
+async function addAvaliacaoEstabelecimento(req, res){
     let avaliacao = {
         avaliacao_usuario: req.body.avaliacao,
         id_usuario: req.session.usuario.id_user,
@@ -11,6 +11,25 @@ async function addAvaliacao(req, res){
     };
     AvaliacaoEstabelecimento.create(avaliacao).then(() =>{
         AvaliacaoEstabelecimento.findAll({
+            where:{
+                id_usuario: req.session.usuario.id_user
+            }
+        }).then(() =>{
+            res.redirect('/avaliacoes_estabelecimento');
+        })
+    })
+}
+async function addAvaliacaoItem(req, res){
+    let avaliacao = {
+        avaliacao_usuario: req.body.avaliacao,
+        id_usuario: req.session.usuario.id_user,
+        nota_usuario: req.body.nota,
+        id_item: req.params.idItem,
+        id_estabelecimento: req.params.idEst,
+        data_avaliacao: new Date(Date.now()).toISOString()
+    };
+    AvaliacaoItem.create(avaliacao).then(() =>{
+        AvaliacaoItem.findAll({
             where:{
                 id_usuario: req.session.usuario.id_user
             }
@@ -33,6 +52,7 @@ async function avaliacoesViewCliente(req, res) {
 }
 
 module.exports = {
-   addAvaliacao,
-   avaliacoesViewCliente,
+    addAvaliacaoEstabelecimento,
+    avaliacoesViewCliente,
+    addAvaliacaoItem,
 }

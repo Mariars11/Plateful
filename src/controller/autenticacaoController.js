@@ -3,9 +3,9 @@ const Estabelecimento = require('../model/estabelecimento');
 const Item = require('../model/item');
 const Estado = require('../model/estado');
 const EstadoClienteEstabelecimento = require('../model/estado_cliente_estabelecimento');
+const ConsumoItemCliente = require('../model/consumo_item_usuario');
 const TipoUsuario = require('../model/tipoUsuario');
-const AvaliacaoEstabelecimento = require('../model/avaliacaoEstabelecimento');
-const AvaliacaoItem = require('../model/avaliacaoItem');
+
 
 const { where } = require('sequelize');
 
@@ -75,6 +75,30 @@ async function CriarEstabelecimentosCliente(cliente){
                     id_estado: estadoAnuncio.id
                 };
                 await EstadoClienteEstabelecimento.create(estado_cliente_estabelecimento);
+                Item.findAll({
+                    where:{
+                        id_estabelecimento: est.id_estabelecimento
+                    }
+                }).then(async(items)=>{
+                    items.map(async item =>{
+                        let itemCliente = await ConsumoItemCliente.findOne({
+                            where:{
+                                id_usuario: cliente.id_user,
+                                id_item: item.id_item,
+                                id_estabelecimento: est.id_estabelecimento
+                            }
+                        });
+                        if(itemCliente === null){
+                            let consumo = {
+                                id_usuario: cliente.id_user,
+                                id_estabelecimento: est.id_estabelecimento,
+                                id_item: item.id_item,
+                                flag_consumo: false
+                            };
+                            await ConsumoItemCliente.create(consumo);
+                        }
+                    })
+                })
             }
         })
     })

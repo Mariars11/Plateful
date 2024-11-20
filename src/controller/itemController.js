@@ -43,6 +43,15 @@ function homeViewOne(req, res) {
     });
     
 }
+function viewOneItemCliente(req, res){
+    Item.findOne({
+        where:{
+            id_item: req.params.idItem
+        }
+    }).then((item) =>{
+        res.render('itemCliente.html', {item});
+    })
+}
 function cadastrarItem(req, res) {
     let estabelecimento = Estabelecimento.findOne({
         where: {
@@ -111,5 +120,6 @@ module.exports = {
     cadastrarItem,
     cadastroView,
     editarItem,
-    excluirItem
+    excluirItem,
+    viewOneItemCliente
 }
