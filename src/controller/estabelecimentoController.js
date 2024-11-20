@@ -47,7 +47,6 @@ async function homeViewRestaurante(req, res){
 }
 async function homeView(req, res){    
     Estabelecimento.findAll({
-            where: {id_usuario: req.session.usuario.id_user}
         }).then((estabelecimentosCliente) =>{
             res.render('home.html', {estabelecimentosCliente}); 
         }).catch((erro_recupera_estabelecimentos)=>{

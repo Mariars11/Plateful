@@ -36,18 +36,6 @@ async function autenticar(req, res){
         req.session.autorizado = true;
         req.session.usuario = usuario;
         if(isCliente){
-            let tu_estabelecimento = await TipoUsuario.findOne({where: {
-                descricao: 'Estabelecimento'
-            }});
-            let tu_cliente = await TipoUsuario.findOne({where: {
-                descricao: 'Cliente'
-            }});
-            await Estabelecimento.findAll({
-                where: {
-                    id_tipo_usuario: tu_estabelecimento.id
-                }}).then(async (estabelecimentos) =>{
-                    await CriarEstabelecimentosCliente(estabelecimentos, usuario, tu_cliente);
-                })
             await res.redirect('/home');
         }
         else{
@@ -63,32 +51,6 @@ async function autenticar(req, res){
             res.render('loginRestaurante.html', {erro_autenticacao});
         }
     }
-}
-async function CriarEstabelecimentosCliente(estabelecimentos, cliente, tu_cliente){
-    await estabelecimentos.map(async est =>{
-        let estabelecimento = await Estabelecimento.findOne(
-        { 
-            where: { id_usuario: cliente.id_user, nome: est.nome } 
-        });
-        if(estabelecimento === null){
-            let estadoAnuncio = await Estado.findOne({
-                where: {
-                    descricao: 'Anúncio'
-                }
-            });
-            let estCliente = {
-                nome: est.nome,
-                id_usuario: cliente.id_user,
-                unidade: est.unidade,
-                id_tipo_usuario: tu_cliente.id,
-                descricao: est.descricao,
-                id_estado: estadoAnuncio.id,
-                url_imagem_estabelecimento: est.url_imagem_estabelecimento,
-                endereco: est.endereco,
-            };
-            await Estabelecimento.create(estCliente);
-        }
-    });
 }
 function verificarAutenticacao(req, res, next) {
     if(req.session.autorizado){
