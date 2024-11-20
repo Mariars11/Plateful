@@ -139,11 +139,13 @@ async function homeViewOneCliente(req, res) {
             id_estabelecimento: req.params.idEst
         }
     }).then(async(estabelecimento) =>{
+        
         await Item.findAll({
             where:{
                 id_estabelecimento: estabelecimento.id_estabelecimento
             }
         }).then(async (itens) =>{
+            
             let entrada = await Categoria.findOne({ where:{descricao: 'Entrada'}});
             let bebida = await Categoria.findOne({where:{descricao: 'Bebida'}});
             let pratoPrincipal = await Categoria.findOne({where:{descricao: 'Prato Principal'}});

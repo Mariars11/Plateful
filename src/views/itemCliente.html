@@ -44,8 +44,8 @@
                   <p>{{descricao}}</p>
                 </div>
               </div>
-              <form action="/consumido_item/{{id_estabelecimento}}/{{id_item}}" method="post">
-                    <input class="form-check-input" type="checkbox" name="consumido" id="consumido" value="{{flag_consumido}}">
+              <form action="/itemConsumo/{{id_estabelecimento}}/{{id_item}}" method="post">
+                    <input class="form-check-input" type="checkbox" name="consumido" id="consumido">
                     <label class="form-check-label" for="consumido">Consumido</label>
                     <button class="btn-primary" type="submit">Salvar</button>
                 </form>

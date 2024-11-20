@@ -2,6 +2,7 @@ const Estabelecimento = require('../model/estabelecimento');
 const Item = require('../model/item');
 const Categoria = require('../model/categoria');
 const Usuario = require('../model/usuario');
+const ConsumoItemCliente = require('../model/consumo_item_usuario');
 
 function indexView(req, res) {
     res.render('index.html');
@@ -15,7 +16,6 @@ function homeViewItem(req, res) {
             id_usuario: req.session.usuario.id_user
         }        
     }).then((itens)=>{
-        console.log(itens);
         res.render('homeRestaurante.html', {itens});
     }).catch((erro_recupera_itens)=>{
         res.render('homeRestaurante.html', {erro_recupera_itens});
@@ -43,12 +43,40 @@ function homeViewOne(req, res) {
     });
     
 }
-function viewOneItemCliente(req, res){
+function changeCreateConsumo(req, res){
+    ConsumoItemCliente.findOne({
+        where:{
+            id_usuario: req.session.usuario.id_user,
+            id_item: req.params.idItem,
+            id_estabelecimento: req.params.idEstabelecimento
+        }
+    }).then((consumoItemCliente) =>{
+        console.log(consumoItemCliente);
+        let consumo = req.body.consumido === 'on';
+        
+        consumoItemCliente.update({
+            flag_consumo: consumo,
+        }) 
+        consumoItemCliente.save()
+       
+        res.redirect(`/itemCliente/${req.params.idItem}`);
+    })
+}
+async function viewOneItemCliente(req, res){
     Item.findOne({
         where:{
             id_item: req.params.idItem
         }
-    }).then((item) =>{
+    }).then(async (item) =>{
+        let consumoItem = await ConsumoItemCliente.findOne({
+            where:{
+                id_usuario: req.session.usuario.id_user,
+                id_item: req.params.idItem,
+            }
+        });
+        if(consumoItem !== null){
+            item.flag_consumido = consumoItem.flag_consumo;           
+        }
         res.render('itemCliente.html', {item});
     })
 }
@@ -61,7 +89,6 @@ function cadastrarItem(req, res) {
     let categorias = Categoria.findAll({
     });
     let idEstabelecimento = String(req.params.idEstabelecimento);
-    console.log(idEstabelecimento);
     let item = {
         titulo: req.body.titulo,
         id_usuario: req.session.usuario.id_user,
@@ -121,5 +148,6 @@ module.exports = {
     cadastroView,
     editarItem,
     excluirItem,
-    viewOneItemCliente
+    viewOneItemCliente,
+    changeCreateConsumo
 }

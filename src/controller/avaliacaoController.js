@@ -44,7 +44,6 @@ async function avaliacoesViewCliente(req, res) {
             id_usuario: req.session.usuario.id_user
         }
     }).then((avaliacoes) =>{
-        console.log(avaliacoes);        
         res.render('avaliacoesCliente.html', {avaliacoes});
     }).catch((erro_recuperar_avaliacoes)=>{
         res.render('avaliacoesCliente.html', {erro_recuperar_avaliacoes});
