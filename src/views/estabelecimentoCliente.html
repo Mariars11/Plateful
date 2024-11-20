@@ -13,7 +13,7 @@
     <body>
         <div style="background-color: black; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
             <div>
-              <a class="nav-link" href="/homeRestaurante">
+              <a class="nav-link" href="/home">
                 <img style="padding: 10px;object-fit: contain; height: 100px; width: 200px;" src="/img/logo.png" alt="logo do plateful" srcset="">
               </a> 
               </div>
@@ -28,10 +28,9 @@
                 </ul>
             </div>
         </div>
-        {{#restaurante}}
+        {{#estabelecimento}}
             <div class="div-info-restaurante" style="display: flex; flex-direction: column; align-items: center; padding: 50px 20% 0 20%;">
               <div style="align-self: flex-start;">
-                <h3>Meu perfil</h3>
                 <img src="{{url_imagem_estabelecimento}}" alt="Logo {{nome}}" />
               </div>
               <div class="div-nome-restaurante" style="align-self: flex-start;">
@@ -45,6 +44,13 @@
                   <p>{{descricao}}</p>
                 </div>
               </div>
+              <form method="post" action="/change_estado/{{id_estabelecimento}}">
+                  {{#estados}}
+                  <input type="radio" name="estado" id="estado" value="{{id}}" class="form-check-input">
+                  <label class="form-check-label" for="estado">{{descricao}}</label>
+                  {{/estados}}
+                  <button type="submit" class="btn btn-primary w-100">Salvar</button>
+              </form>
               <div class="cardapio" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between; margin-top: 50px;">
                 <div>
                   <div class="div-title-btn" style="padding-bottom: 20px;">
@@ -115,90 +121,9 @@
                     {{/itensSobremesa}}
                   </div>
                 </div>
-                <div>
-                  <button class="btn btn-primary w-100" type="button" id="btn-addItem">Adicionar</button>
-                </div>
               </div>
             </div>
-        {{/restaurante}}
-        {{^restaurante}}
-            <!-- formulario para cadastro do restaurante -->
-            {{#erro_cadastrar_estabelecimento}}
-                <div class="alert alert-danger">
-                    Erro ao cadastrar restaurante!
-                </div>
-            {{/erro_cadastrar_estabelecimento}}
-            <div>
-                <h2>Crie seu estabelecimento</h2>
-                <form action="/cadastrar_estabelecimento" method="post">
-                  <div class="mb-1 mt-1">
-                    <label for="titulo" class="form-label">Nome:</label>
-                    <input required type="text" class="form-control" id="nome" placeholder="Informe o nome do estabelecimento" name="nome">
-                  </div>
-                  <div class="mb-1 mt-1">
-                    <label for="imagem" class="form-label">Descrição:</label>
-                    <textarea id="descricao" class="form-control" placeholder="Descreve o seu restaurante." name="descricao"></textarea>
-                  </div>
-                  <div class="mb-1 mt-1">
-                    <label for="imagem" class="form-label">Imagem:</label>
-                    <input type="text" class="form-control" id="imagem" placeholder="Informe a url da imagem" name="imagem">
-                  </div>
-                  <div class="mb-1 mt-1">
-                    <label for="endereco" class="form-label">Endereço:</label>
-                    <input required type="text" class="form-control" id="endereco" placeholder="Informe o endereco do estabelecimento" name="endereco">
-                  </div>
-                  <div class="mb-1">
-                    <label for="preco" class="form-label">Unidade:</label>
-                    <input type="text" placeholder="Informe a unidade" class="form-control" id="unidade" name="unidade">
-                  </div>
-                  <button type="submit" id="btn-login" class="btn btn-primary w-100">Adicionar</button>
-                </form> 
-              </div>
-        {{/restaurante}}
-        <div class="modal fade" id="modalAddItem" tabindex="-1" role="dialog" aria-labelledby="modalAddItemLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalAddItemLabel">Adicione um item ao cardápio</h5>
-                <button type="button" id="close_modal" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                {{#restaurante}}
-                  <form action="/cadastrar_item/{{id_estabelecimento}}" method="post">
-                    <div class="mb-1 mt-1">
-                      <label for="titulo" class="form-label">Titulo:</label>
-                      <input required type="text" class="form-control" id="titulo" placeholder="Informe o titulo do produto" name="titulo">
-                    </div>
-                    <div class="mb-1 mt-1">
-                      <label for="descricao" class="form-label">Descrição:</label>
-                      <textarea name="descricao" class="form-control" id="descricao" placeholder="Descreve esse item"></textarea>
-                    </div>
-                    <div class="mb-1">
-                      <label for="preco" class="form-label">Preco:</label>
-                      <input type="number" required min="0" placeholder="Informe o preco" class="form-control" id="preco" name="preco">
-                    </div>
-                    <div class="mb-1 mt-1">
-                      <label for="imagem" class="form-label">Imagem:</label>
-                      <input type="text" class="form-control" id="imagem" placeholder="Informe a url da imagem" name="imagem">
-                    </div>
-                    <div class="mb-1 mt-1">
-                      <label for="categoria" class="form-label">Categoria:</label>
-                      <select class="form-select" name="categoria" id="categoria">
-                        <option selected hidden value="0">Escolha</option>
-                        {{#categorias}}
-                          <option value="{{id}}">{{descricao}}</option>
-                        {{/categorias}}
-                      </select>
-                    </div>
-                    <button type="submit" id="btn-login" class="btn btn-primary w-100">Adicionar</button>
-                </form> 
-                {{/restaurante}}
-              </div>  
-            </div>
-          </div>
-        </div>
+        {{/estabelecimento}}
       </div>
       <script type="text/javascript">
           $(document).ready(function(){

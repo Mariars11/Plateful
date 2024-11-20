@@ -4,7 +4,7 @@
         <title>Plateful</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
         <link rel="icon" href="/img/logoPage.png">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -32,14 +32,43 @@
             <div class="div-anuncio"> 
               <div style="padding: 50px 0 50px 200px;"><h3>Recomendações</h3></div>
               <div class="div-anuncio-row" style="display: flex; justify-content: space-evenly;">
-                {{#estabelecimentosCliente}}
-                <div class="div-icon-text" style="text-align: center;">
-                  <img src="{{url_imagem_estabelecimento}}" alt="logo {{nome}}" >
-                  <p style="font-size: 16px; padding: 10px; font-weight: 500;">{{nome}}</p>
-                </div>
-                {{/estabelecimentosCliente}}
+                {{#estabelecimentosAnuncios}}
+                <a href="/view_estabelecimento/{{id_estabelecimento}}" class="link-estabelecimento" style="color: black; text-decoration: none;">
+                  <div class="div-icon-text" style="text-align: center;">
+                    <img src="{{url_imagem_estabelecimento}}" alt="logo {{nome}}" >
+                      <p style="font-size: 16px; padding: 10px; font-weight: 500;">{{nome}}</p>
+                  </div>
+                </a>
+                {{/estabelecimentosAnuncios}}
               </div>
             </div>
+            <div class="div-jaFui"> 
+              <div style="padding: 50px 0 50px 200px;"><h3>Já fui</h3></div>
+              <div class="div-anuncio-row" style="display: flex; justify-content: space-evenly;">
+                {{#estabelecimentosJaFui}}
+                <a href="/view_estabelecimento/{{id_estabelecimento}}" class="link-estabelecimento" style="color: black; text-decoration: none;">
+                  <div class="div-icon-text" style="text-align: center;">
+                    <img src="{{url_imagem_estabelecimento}}" alt="logo {{nome}}" >
+                      <p style="font-size: 16px; padding: 10px; font-weight: 500;">{{nome}}</p>
+                  </div>
+                </a>
+                {{/estabelecimentosJaFui}}
+              </div>
+            </div>
+            <div class="div-queroIr"> 
+              <div style="padding: 50px 0 50px 200px;"><h3>Minha Lista</h3></div>
+              <div class="div-anuncio-row" style="display: flex; justify-content: space-evenly;">
+                {{#estabelecimentosQueroIr}}
+                <a href="/view_estabelecimento/{{id_estabelecimento}}" class="link-estabelecimento" style="color: black; text-decoration: none;">
+                  <div class="div-icon-text" style="text-align: center;">
+                    <img src="{{url_imagem_estabelecimento}}" alt="logo {{nome}}" >
+                      <p style="font-size: 16px; padding: 10px; font-weight: 500;">{{nome}}</p>
+                  </div>
+                </a>
+                {{/estabelecimentosQueroIr}}
+              </div>
+            </div>
+            
         
       <!-- <script type="text/javascript">
           $(document).ready(function(){

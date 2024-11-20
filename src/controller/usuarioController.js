@@ -45,8 +45,6 @@ async function cadastrarUsuario(req, res) {
             res.render("cadastroRestaurante.html", {erro});
         }
     }
-    
-
 }
 function listarUsuarios(req, res) {
     Usuario.findAll().then((usuarios)=>{

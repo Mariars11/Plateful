@@ -2,7 +2,7 @@ const Usuario = require('../model/usuario');
 const Estabelecimento = require('../model/estabelecimento');
 const Item = require('../model/item');
 const Estado = require('../model/estado');
-
+const EstadoClienteEstabelecimento = require('../model/estado_cliente_estabelecimento');
 const TipoUsuario = require('../model/tipoUsuario');
 const AvaliacaoEstabelecimento = require('../model/avaliacaoEstabelecimento');
 const AvaliacaoItem = require('../model/avaliacaoItem');
@@ -36,6 +36,7 @@ async function autenticar(req, res){
         req.session.autorizado = true;
         req.session.usuario = usuario;
         if(isCliente){
+            CriarEstabelecimentosCliente(req.session.usuario);
             await res.redirect('/home');
         }
         else{
@@ -51,6 +52,32 @@ async function autenticar(req, res){
             res.render('loginRestaurante.html', {erro_autenticacao});
         }
     }
+}
+async function CriarEstabelecimentosCliente(cliente){
+    Estabelecimento.findAll({
+    }).then(async(estabelecimentos) =>{
+        estabelecimentos.map(async est =>{
+            let estabelecimentoCliente = await EstadoClienteEstabelecimento.findOne({
+                where:{
+                    id_usuario: cliente.id_user,
+                    id_estabelecimento: est.id_estabelecimento
+                }
+            });
+            if(estabelecimentoCliente === null){
+                let estadoAnuncio = await Estado.findOne({
+                    where: {
+                        descricao: 'Anúncio'
+                    }
+                });
+                let estado_cliente_estabelecimento = {
+                    id_estabelecimento: est.id_estabelecimento,
+                    id_usuario: cliente.id_user,
+                    id_estado: estadoAnuncio.id
+                };
+                await EstadoClienteEstabelecimento.create(estado_cliente_estabelecimento);
+            }
+        })
+    })
 }
 function verificarAutenticacao(req, res, next) {
     if(req.session.autorizado){

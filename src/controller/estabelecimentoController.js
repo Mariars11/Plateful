@@ -4,7 +4,8 @@ const Categoria = require('../model/categoria');
 const Estado = require('../model/estado');
 const TipoUsuario = require('../model/tipoUsuario');
 const Estabelecimento = require('../model/estabelecimento');
-const { where } = require('sequelize');
+const EstadoClienteEstabelecimento = require('../model/estado_cliente_estabelecimento');
+const { where, Op } = require('sequelize');
 
 function indexView(req, res) {
     res.render('index.html');
@@ -45,13 +46,120 @@ async function homeViewRestaurante(req, res){
         res.render('homeRestaurante.html', {erro_recupera_estabelecimento});
     });
 }
-async function homeView(req, res){    
+async function homeView(req, res){  
+    let estadoAnuncios = await Estado.findOne({where: {
+        descricao: 'Anúncio',
+    }}); 
+    let estadoQueroIr = await Estado.findOne({where: {
+        descricao: 'Quero ir',
+    }});
+    let estadoJaFui = await Estado.findOne({where: {
+        descricao: 'Já fui',
+    }});
+    let estabelecimentosEstadoAnuncios = await EstadoClienteEstabelecimento.findAll({
+        where:{
+            id_estado: estadoAnuncios.id,
+            id_usuario: req.session.usuario.id_user
+        }
+    });
+    let estabelecimentosAnuncios = [];
+    estabelecimentosEstadoAnuncios.map(async est =>{
+        Estabelecimento.findOne({
+            where:{
+                id_estabelecimento: est.id_estabelecimento
+            }
+        }).then((estabelecimentoAnuncio) =>{
+            estabelecimentosAnuncios.push(estabelecimentoAnuncio)
+        })
+    })
+    let estabelecimentosEstadoQueroIr = await EstadoClienteEstabelecimento.findAll({
+        where:{
+            id_estado: estadoQueroIr.id,
+            id_usuario: req.session.usuario.id_user
+        }
+    });
+    let estabelecimentosQueroIr = [];
+    estabelecimentosEstadoQueroIr.map(async est =>{
+        Estabelecimento.findOne({
+            where:{
+                id_estabelecimento: est.id_estabelecimento
+            }
+        }).then((estabelecimentoQueroIr) =>{
+            estabelecimentosQueroIr.push(estabelecimentoQueroIr)
+        })
+    })
+    let estabelecimentosEstadoJaFui = await EstadoClienteEstabelecimento.findAll({
+        where:{
+            id_estado: estadoJaFui.id,
+            id_usuario: req.session.usuario.id_user
+        }
+    });
+    let estabelecimentosJaFui = [];
+    estabelecimentosEstadoJaFui.map(async est =>{
+        Estabelecimento.findOne({
+            where:{
+                id_estabelecimento: est.id_estabelecimento
+            }
+        }).then((estabelecimentoJaFui) =>{
+            estabelecimentosJaFui.push(estabelecimentoJaFui)
+        })
+    });
     Estabelecimento.findAll({
         }).then((estabelecimentosCliente) =>{
-            res.render('home.html', {estabelecimentosCliente}); 
+            res.render('home.html', {estabelecimentosAnuncios, estabelecimentosQueroIr, estabelecimentosJaFui}); 
         }).catch((erro_recupera_estabelecimentos)=>{
             res.render('home.html', {erro_recupera_estabelecimentos});
         });
+}
+async function changeEstado(req, res) {
+    await EstadoClienteEstabelecimento.findOne({
+        where:{
+            id_estabelecimento: req.params.id,
+            id_usuario: req.session.usuario.id_user
+        }
+    }).then((estadoClienteEst) =>{
+        estadoClienteEst.update({
+            id_estado: req.body.estado,
+        }) 
+        estadoClienteEst.save();
+        homeView(req, res);
+    })
+}
+async function homeViewOneCliente(req, res) {
+    let estados = await Estado.findAll({
+        where:{
+            [Op.not]:{
+                [Op.or]:[{descricao: 'N/A'}, {descricao: 'Anúncio'}]
+            } 
+        }
+    });
+    await Estabelecimento.findOne({
+        where: {
+            id_estabelecimento: req.params.idEst
+        }
+    }).then(async(estabelecimento) =>{
+        await Item.findAll({
+            where:{
+                id_estabelecimento: estabelecimento.id_estabelecimento
+            }
+        }).then(async (itens) =>{
+            let entrada = await Categoria.findOne({ where:{descricao: 'Entrada'}});
+            let bebida = await Categoria.findOne({where:{descricao: 'Bebida'}});
+            let pratoPrincipal = await Categoria.findOne({where:{descricao: 'Prato Principal'}});
+            let sobremesa = await Categoria.findOne({where:{descricao: 'Sobremesa'}});
+
+        
+            let itensEntrada = itens.filter(({id_categoria}) => id_categoria === entrada.id);
+            let itensPrincipal = itens.filter(({id_categoria}) => id_categoria === pratoPrincipal.id);
+            let itensBebida = itens.filter(({id_categoria}) => id_categoria === bebida.id);
+            let itensSobremesa = itens.filter(({id_categoria}) => id_categoria === sobremesa.id);
+            
+            
+            res.render('estabelecimentoCliente.html', {estados, estabelecimento, itensEntrada, itensPrincipal, itensBebida, itensSobremesa})
+        }).catch((erro_recupera_estabelecimento)=>{
+            res.render('estabelecimentoCliente.html', {erro_recupera_estabelecimento});
+        });
+    })
 }
 function homeViewOne(req, res) {
     Usuario.findOne({
@@ -72,7 +180,7 @@ function homeViewOne(req, res) {
         res.render('home.html', {erro_alterar_usuario});
     });
     
-}
+} 
 
 async function FindAllEstabelecimentos(res, req){
     await Estabelecimento.findAll({
@@ -142,8 +250,10 @@ module.exports = {
     indexView,
     homeView,
     homeViewOne,
+    homeViewOneCliente,
     cadastrarEstabelecimento,
     editarEstabelecimento,
     excluirEstabelecimento,
     homeViewRestaurante,
+    changeEstado
 }
