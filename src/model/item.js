@@ -30,6 +30,10 @@ const Item = database.define('item', {
         type: Sequelize.STRING,
         allowNull: true
     },
+    descricao:{
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     flag_consumido: {
         type: Sequelize.BOOLEAN,
         allowNull: true

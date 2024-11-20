@@ -79,7 +79,7 @@ async function CriarEstabelecimentosCliente(estabelecimentos, cliente, tu_client
                 id_tipo_usuario: tu_cliente.id,
                 descricao: est.descricao,
                 id_estado: estadoAnuncio.id,
-                url_imagem_estabelecimento: est.imagem,
+                url_imagem_estabelecimento: est.url_imagem_estabelecimento,
                 endereco: est.endereco,
             };
             await Estabelecimento.create(estCliente);

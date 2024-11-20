@@ -28,13 +28,18 @@
                 </ul>
             </div>
         </div>
-        {{#estabelecimentosCliente}}
-        <div>
-            <p>{{nome}}</p>
-            <p>{{endereco}}</p>
-            <p>{{descricao}}</p>
-        </div>
-        {{/estabelecimentosCliente}}
+
+            <div class="div-anuncio"> 
+              <div style="padding: 50px 0 50px 200px;"><h3>Recomendações</h3></div>
+              <div class="div-anuncio-row" style="display: flex; justify-content: space-evenly;">
+                {{#estabelecimentosCliente}}
+                <div class="div-icon-text" style="text-align: center;">
+                  <img src="{{url_imagem_estabelecimento}}" alt="logo {{nome}}" >
+                  <p style="font-size: 16px; padding: 10px; font-weight: 500;">{{nome}}</p>
+                </div>
+                {{/estabelecimentosCliente}}
+              </div>
+            </div>
         
       <!-- <script type="text/javascript">
           $(document).ready(function(){

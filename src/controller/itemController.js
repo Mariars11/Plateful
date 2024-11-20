@@ -58,7 +58,7 @@ function cadastrarItem(req, res) {
         id_usuario: req.session.usuario.id_user,
         id_estabelecimento: req.params.idEstabelecimento,
         preco: req.body.preco,
-        nota: req.body.nota,
+        descricao: req.body.descricao,
         url_imagem: req.body.imagem,
         id_categoria: req.body.categoria
     }
