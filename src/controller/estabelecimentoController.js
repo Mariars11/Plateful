@@ -6,6 +6,7 @@ const TipoUsuario = require('../model/tipoUsuario');
 const Estabelecimento = require('../model/estabelecimento');
 const EstadoClienteEstabelecimento = require('../model/estado_cliente_estabelecimento');
 const { where, Op } = require('sequelize');
+const AvaliacaoEstabelecimento = require('../model/avaliacaoEstabelecimento');
 
 function indexView(req, res) {
     res.render('index.html');
@@ -125,6 +126,7 @@ async function changeEstado(req, res) {
         homeView(req, res);
     })
 }
+
 async function homeViewOneCliente(req, res) {
     let estados = await Estado.findAll({
         where:{
@@ -255,5 +257,5 @@ module.exports = {
     editarEstabelecimento,
     excluirEstabelecimento,
     homeViewRestaurante,
-    changeEstado
+    changeEstado,
 }

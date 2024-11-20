@@ -51,6 +51,9 @@
                   {{/estados}}
                   <button type="submit" class="btn btn-primary w-100">Salvar</button>
               </form>
+              <div>
+                <a role="button" id="btn-avaliacao">Deixe uma avaliação</a>
+              </div>
               <div class="cardapio" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between; margin-top: 50px;">
                 <div>
                   <div class="div-title-btn" style="padding-bottom: 20px;">
@@ -61,10 +64,12 @@
                     <hr>
                     {{#itensEntrada}}
                     <div class="card">
-                        <h5 class="card-header">{{titulo}}</h5>
+                        <img class="card-header" src="{{url_imagem}}">
                         <div class="card-body">
                             <div class="div-price-btns">
                               <div>
+                                <p>{{titulo}}</p>
+                                <p>{{descricao}}</p>
                                 <p class="card-text">R$ {{preco}}</p>
                               </div>                              
                             </div>
@@ -77,10 +82,12 @@
                     <hr>
                     {{#itensPrincipal}}
                     <div class="card">
-                        <h5 class="card-header">{{titulo}}</h5>
+                        <img class="card-header" src="{{url_imagem}}">
                         <div class="card-body">
                             <div class="div-price-btns">
                               <div>
+                                <p>{{titulo}}</p>
+                                <p>{{descricao}}</p>
                                 <p class="card-text">R$ {{preco}}</p>
                               </div>                              
                             </div>
@@ -93,10 +100,12 @@
                     <hr>
                     {{#itensBebida}}
                     <div class="card">
-                        <h5 class="card-header">{{titulo}}</h5>
+                        <img class="card-header" src="{{url_imagem}}">
                         <div class="card-body">
                             <div class="div-price-btns">
                               <div>
+                                <p>{{titulo}}</p>
+                                <p>{{descricao}}</p>
                                 <p class="card-text">R$ {{preco}}</p>
                               </div>                              
                             </div>
@@ -109,10 +118,12 @@
                     <hr>
                     {{#itensSobremesa}}
                     <div class="card">
-                        <h5 class="card-header">{{titulo}}</h5>
+                        <img class="card-header" src="{{url_imagem}}">
                         <div class="card-body">
                             <div class="div-price-btns">
                               <div>
+                                <p>{{titulo}}</p>
+                                <p>{{descricao}}</p>
                                 <p class="card-text">R$ {{preco}}</p>
                               </div>                              
                             </div>
@@ -125,16 +136,44 @@
             </div>
         {{/estabelecimento}}
       </div>
+      <div class="modal fade" id="modalAddAvaliacao" tabindex="-1" role="dialog" aria-labelledby="modalAddAvaliacaoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalAddAvaliacaoLabel">Avalie</h5>
+              <button type="button" id="close_modal" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              {{#estabelecimento}}
+                <form action="/cadastrar_avaliacao_estabelecimento/{{id_estabelecimento}}" method="post">
+                  <div class="mb-1 mt-1">
+                    <label for="avaliacao" class="form-label">Avaliação:</label>
+                    <textarea name="avaliacao" class="form-control" id="avaliacao" placeholder="Avalie sua experiência nesse estabelecimento"></textarea>
+                  </div>
+                  <div class="mb-1">
+                    <label for="nota" class="form-label">Nota:</label>
+                    <input type="number" min="0" max="5" required placeholder="Informe a nota" class="form-control" id="nota" name="nota">
+                  </div>
+                  </div>
+                  <button type="submit" id="btn-login" class="btn btn-primary w-100">Adicionar</button>
+              </form> 
+              {{/estabelecimento}}
+            </div>  
+          </div>
+        </div>
+      </div>
       <script type="text/javascript">
           $(document).ready(function(){
               $(function () {
-                $("#btn-addItem").click(function () {
-                    $("#modalAddItem").modal("show");
+                $("#btn-avaliacao").click(function () {
+                    $("#modalAddAvaliacao").modal("show");
                 }); 
               });
               $(function () {
                 $("#close_modal").click(function () {
-                    $("#modalAddItem").modal("hide");
+                    $("#modalAddAvaliacao").modal("hide");
                 }); 
               });
           });

@@ -29,14 +29,10 @@ const AvaliacaoEstabelecimento = database.define('avaliacaoEstabelecimento', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    id_item:{
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
     data_avaliacao:{
         type: DataTypes.DATE,
         defaultValues: DataTypes.NOW,
-        allowNull: false
+        allowNull: true
     }
 });
 
