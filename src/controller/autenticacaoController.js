@@ -1,24 +1,108 @@
 const Usuario = require('../model/usuario');
 const Estabelecimento = require('../model/estabelecimento');
 const Item = require('../model/item');
+const Estado = require('../model/estado');
+const EstadoClienteEstabelecimento = require('../model/estado_cliente_estabelecimento');
+const ConsumoItemCliente = require('../model/consumo_item_usuario');
+const TipoUsuario = require('../model/tipoUsuario');
+
+
 const { where } = require('sequelize');
 
-async function autenticar(req, res){
+function loginConsumidorView(req, res) {
+    res.render('loginConsumidor.html');
+}
+function loginRestauranteView(req, res) {
+    res.render('loginRestaurante.html');
+}
+function cadastroConsumidorView(req, res){
+    res.render('cadastro.html');
+}
+function cadastroRestauranteView(req, res){
+    res.render('cadastroRestaurante.html');
+}
+async function autenticar(req, res){   
+    let tipoUsuario = await TipoUsuario.findOne({where: {
+        descricao: req.body.tipoUsuario
+    }});
+    let isCliente = req.body.tipoUsuario === 'Cliente';
     const usuario = await Usuario.findOne({ where: {
         email: req.body.email, 
-        senha: req.body.senha}
+        senha: req.body.senha,
+        id_tipo_usuario: tipoUsuario.id
+        }
     });
     if(usuario !== null){
         req.session.autorizado = true;
         req.session.usuario = usuario;
-        res.redirect('/home');
+        if(isCliente){
+            CriarEstabelecimentosCliente(req.session.usuario);
+            await res.redirect('/home');
+        }
+        else{
+            res.redirect('/homeRestaurante');
+        }
     }
     else{
         let erro_autenticacao = true;
-        res.render('index.html', {erro_autenticacao});
+        if(isCliente){
+            res.render('loginConsumidor.html', {erro_autenticacao});
+        }
+        else{
+            res.render('loginRestaurante.html', {erro_autenticacao});
+        }
     }
 }
-
+async function CriarEstabelecimentosCliente(cliente){
+    Estabelecimento.findAll({
+    }).then(async(estabelecimentos) =>{
+        estabelecimentos.map(async est =>{
+            let estabelecimentoCliente = await EstadoClienteEstabelecimento.findOne({
+                where:{
+                    id_usuario: cliente.id_user,
+                    id_estabelecimento: est.id_estabelecimento
+                }
+            });
+            if(estabelecimentoCliente === null){
+                let estadoAnuncio = await Estado.findOne({
+                    where: {
+                        descricao: 'Anúncio'
+                    }
+                });
+                let estado_cliente_estabelecimento = {
+                    id_estabelecimento: est.id_estabelecimento,
+                    id_usuario: cliente.id_user,
+                    id_estado: estadoAnuncio.id
+                };
+                await EstadoClienteEstabelecimento.create(estado_cliente_estabelecimento);
+                Item.findAll({
+                    where:{
+                        id_estabelecimento: est.id_estabelecimento
+                    }
+                }).then(async(items)=>{
+                    items.map(async item =>{
+                        let itemCliente = await ConsumoItemCliente.findOne({
+                            where:{
+                                id_usuario: cliente.id_user,
+                                id_item: item.id_item,
+                                id_estabelecimento: est.id_estabelecimento
+                            }
+                        });
+                        if(itemCliente === null){
+                            let consumo = {
+                                id_usuario: cliente.id_user,
+                                id_estabelecimento: est.id_estabelecimento,
+                                id_item: item.id_item,
+                                flag_consumo: false
+                            };
+                            await ConsumoItemCliente.create(consumo);
+                        }
+                    })
+                })
+            }
+        })
+    })
+}
 function verificarAutenticacao(req, res, next) {
     if(req.session.autorizado){
         console.log("usuário autorizado");
@@ -34,46 +118,35 @@ function editarUsuario(req, res) {
         where: {
             id_user: req.session.usuario.id_user,
         }
-    }).then((usuario)=>{
+    }).then(async (usuario)=>{
         usuario.update({
             nome: req.body.nome,
             email: req.body.email,
-            data_nascimento: req.body.data_nascimento,
-            indicador_ativo: req.body.indicador_ativo,
-            senha: req.body.senha
+            senha: req.body.senha,
+            CNPJ: req.body.cnpj,
+            nome_fantasia: req.body.nomeFantasia,
         }) 
 
-        if(usuario.email != "" && usuario.data_nascimento != ""
-    && usuario.nome != "" && usuario.senha)
-    {
-        usuario.save()
-        var sucesso = "realizado!"; 
-
-        res.render('editarPerfil.html', {usuario, sucesso});
-    }
+        if(usuario.email != "" && usuario.nome != "" && usuario.senha)
+        {
+            usuario.save()
+            var sucesso = "Usuário atualizado com sucesso!"; 
+            let tipoUsuario = await TipoUsuario.findOne({where: {
+                id: usuario.id_tipo_usuario
+            }});
+    
+            if(tipoUsuario.descricao === 'Cliente'){
+                res.render('editarPerfil.html', {usuario, sucesso});
+            }
+            else{
+                res.render('editarPerfilEstabelecimento.html', {usuario, sucesso});
+            }
+        }
     }).catch((erro)=>{
         res.render('editarPerfil.html', {erro});
     }); 
 }
-function OneUser(req, res) {
-    Usuario.findOne({
-        where: {
-            id_user: req.session.usuario.id_user,
-        }
-    }).then((usuario)=>{
-        Estabelecimento.findAll({
-            where: {
-                id_usuario: usuario.id_user,
-            }
-        }).then((estabelecimentos)=>{
-            res.render('home.html', {estabelecimentos, usuario});
-        }).catch((erro_recupera_estabelecimentos)=>{
-            res.render('home.html', {erro_recupera_estabelecimentos});
-        }); 
-    }).catch((erro_alterar_usuario)=>{
-        res.render('home.html', {erro_alterar_usuario});
-    });  
-}
+
 function OneUserItem(req, res) {
     Usuario.findOne({
         where: {
@@ -100,17 +173,29 @@ function OneUserItem(req, res) {
         res.render('home.html', {erro_alterar_usuario});
     });  
 }
-function OneUserEdit(req, res) {
+async function OneUserEdit(req, res) {
     Usuario.findOne({
         where: {
             id_user: req.session.usuario.id_user,
         }
-    }).then((usuario)=>{
-        res.render('editarPerfil.html', {usuario});
+    }).then(async(usuario)=>{
+        let tipoUsuario = await TipoUsuario.findOne({where: {
+            id: usuario.id_tipo_usuario
+        }});
+
+        if(tipoUsuario.descricao === 'Cliente'){
+            res.render('editarPerfil.html', {usuario});
+        }
+        else{
+            res.render('editarPerfilEstabelecimento.html', {usuario});
+        }
     }).catch((erro)=>{
         res.render('editarPerfil.html', {erro});
     });  
 }
+
+
+
 function sair(req, res) {
     req.session.destroy();
     res.redirect('/');
@@ -120,8 +205,11 @@ module.exports = {
     autenticar,
     verificarAutenticacao,
     sair,
-    OneUser,
     OneUserItem,
     editarUsuario,
-    OneUserEdit
+    OneUserEdit,
+    loginConsumidorView,
+    loginRestauranteView,
+    cadastroConsumidorView,
+    cadastroRestauranteView
 }

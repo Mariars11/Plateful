@@ -22,6 +22,7 @@ app.use(session({
 
 // Define as rotas da aplicação (declaradas na pasta /src/routes/)
 app.use('/', require('./src/routes/estabelecimentoRoutes'));
+app.use('/', require('./src/routes/avaliacoesRoutes'));
 app.use('/', require('./src/routes/itemRoutes'));
 app.use('/', require('./src/routes/usuarioRoutes'));
 app.use('/', require('./src/routes/autenticacaoRoutes'));

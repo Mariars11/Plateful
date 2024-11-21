@@ -7,39 +7,29 @@
     <title>Plateful</title>
     <!-- <link rel="icon" href="https://th.bing.com/th/id/OIG.didB9bWiNa1tFf3Z3ny1?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn"> -->
     <base href="/">
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body class="body-editarProduto">
-  <div class="wrapper">
-    <div class="div-nav">
-      <div class="div-font-logo">
-        <div>
-            <!-- <img class="img-logo-form" id="img-sidebar" alt="logo do site" src="https://th.bing.com/th/id/OIG.didB9bWiNa1tFf3Z3ny1?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn"> -->
-        </div>
-        <div>
-            <h2>Plateful</h2>
-        </div>
+<body>
+  <div style="background-color: black; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+    <div>
+      <a class="nav-link" href="/homeRestaurante">
+        <img style="padding: 10px;object-fit: contain; height: 100px; width: 200px;" src="/img/logo.png" alt="logo do plateful" srcset="">
+      </a> 
       </div>
-      <div class="div-nav-ul">
-        <ul class="nav flex-column">
+    <div>
+        <ul class="nav justify-content-end">
             <li class="nav-item">
-              <a class="nav-link" href="/home">
-                <p>Estabelecimentos</p>
-              </a>
+                <a class="nav-link" style="color: white; font-size: 20px;" href="/homeRestaurante">Home</a>
             </li>
-            {{#usuario}}
             <li class="nav-item">
-              <a class="nav-link" href="/editar_perfil/{{id_user}}"><p>Editar Perfil</p></a>
-            </li>
-            {{/usuario}}
-            <li id="li-sair" class="nav-item">
-              <a class="nav-link" href="/sair"><p>Sair</p></a>            
-            </li>
-          </ul>
-      </div>
+              <a class="nav-link" style="color: white; font-size: 20px;" href="/Sair">Sair</a>
+          </li>
+        </ul>
     </div>
+</div>
+  <div class="wrapper">
     <div class="main-content">
       <div class="div-line-h1-btn" id="div-line-id">
         <div>
@@ -59,8 +49,8 @@
                 <input type="number" required min="0" value="{{preco}}" placeholder="Informe o preço" class="form-control" id="preco" name="preco">
               </div>
               <div class="mb-1">
-                <label for="url" class="form-label">Nota:</label>
-                <input type="number" max="5" min="0" placeholder="Informe a nota" value="{{nota}}" class="form-control" name="nota">
+                <label for="url" class="form-label">Url Imagem:</label>
+                <input type="text" max="5" min="0" placeholder="Informe a url da imagem" value="{{url_imagem}}" class="form-control" name="imagem">
               </div>
               <button type="submit" id="btn-login" class="btn btn-primary w-100">Editar Item</button>
           </form>

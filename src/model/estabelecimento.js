@@ -13,7 +13,23 @@ const Estabelecimento = database.define('estabelecimento', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
+    id_tipo_usuario: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
     nome: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    url_imagem_estabelecimento: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    endereco:{
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    descricao:{
         type: Sequelize.STRING,
         allowNull: false
     },
@@ -21,6 +37,10 @@ const Estabelecimento = database.define('estabelecimento', {
         type: Sequelize.STRING,
         allowNull: true
     },
+    id_estado: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    }
 });
 
 module.exports = Estabelecimento;

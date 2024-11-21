@@ -1,10 +1,9 @@
 const Sequelize = require('sequelize');
 const database = require('../db');
 const { type } = require('express/lib/response');
-const sequelize = require('../db');
 
-const Item = database.define('item', {
-    id_item: {
+const ConsumoItemUsuario = database.define('consumoItemUsuario', {
+    id_consumo_item_usuario:{
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -18,30 +17,16 @@ const Item = database.define('item', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    titulo: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    preco: {
-        type: Sequelize.DOUBLE,
-        allowNull: false
-    },
-    url_imagem:{
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    descricao:{
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    flag_consumido: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true
-    },
-    id_categoria:{
+    id_item: {
         type: Sequelize.INTEGER,
         allowNull: false
+    },
+    flag_consumo:{
+        type: Sequelize.BOOLEAN,
+        allowNull: false
     }
+    
 });
 
-module.exports = Item;
+module.exports = ConsumoItemUsuario;
+

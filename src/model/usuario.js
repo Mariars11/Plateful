@@ -19,11 +19,19 @@ const Usuario = database.define('usuario', {
     },
     nome: {
         type: Sequelize.STRING,
+        allowNull: true
+    },
+    id_tipo_usuario:{
+        type: Sequelize.INTEGER,
         allowNull: false
     },
-    data_nascimento: {
+    CNPJ: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
+    },
+    nome_fantasia: {
+        type: Sequelize.STRING,
+        allowNull: true
     }
 });
 
