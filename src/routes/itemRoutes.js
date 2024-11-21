@@ -4,8 +4,6 @@ const router = express.Router();
 const itemController = require('../controller/itemController');
 const autenticacaoController = require('../controller/autenticacaoController');
 
-router.get('/', itemController.indexView);
-router.get('/cadastrar', itemController.cadastroView);
 router.get('/lista_itens/:idEstabelecimento',  autenticacaoController.verificarAutenticacao, autenticacaoController.OneUserItem, itemController.homeViewItem);
 router.get('/itemCliente/:idItem', autenticacaoController.verificarAutenticacao, itemController.viewOneItemCliente)
 router.post('/itemConsumo/:idEstabelecimento/:idItem', autenticacaoController.verificarAutenticacao, itemController.changeCreateConsumo)

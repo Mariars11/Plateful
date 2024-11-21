@@ -118,46 +118,35 @@ function editarUsuario(req, res) {
         where: {
             id_user: req.session.usuario.id_user,
         }
-    }).then((usuario)=>{
+    }).then(async (usuario)=>{
         usuario.update({
             nome: req.body.nome,
             email: req.body.email,
-            data_nascimento: req.body.data_nascimento,
-            indicador_ativo: req.body.indicador_ativo,
-            senha: req.body.senha
+            senha: req.body.senha,
+            CNPJ: req.body.cnpj,
+            nome_fantasia: req.body.nomeFantasia,
         }) 
 
-        if(usuario.email != "" && usuario.data_nascimento != ""
-    && usuario.nome != "" && usuario.senha)
-    {
-        usuario.save()
-        var sucesso = "realizado!"; 
-
-        res.render('editarPerfil.html', {usuario, sucesso});
-    }
+        if(usuario.email != "" && usuario.nome != "" && usuario.senha)
+        {
+            usuario.save()
+            var sucesso = "Usuário atualizado com sucesso!"; 
+            let tipoUsuario = await TipoUsuario.findOne({where: {
+                id: usuario.id_tipo_usuario
+            }});
+    
+            if(tipoUsuario.descricao === 'Cliente'){
+                res.render('editarPerfil.html', {usuario, sucesso});
+            }
+            else{
+                res.render('editarPerfilEstabelecimento.html', {usuario, sucesso});
+            }
+        }
     }).catch((erro)=>{
         res.render('editarPerfil.html', {erro});
     }); 
 }
-// function OneUser(req, res) {
-//     Usuario.findOne({
-//         where: {
-//             id_user: req.session.usuario.id_user,
-//         }
-//     }).then((usuario)=>{
-//         Estabelecimento.findAll({
-//             where: {
-//                 id_usuario: usuario.id_user,
-//             }
-//         }).then((estabelecimentos)=>{
-//             res.render('home.html', {estabelecimentos, usuario});
-//         }).catch((erro_recupera_estabelecimentos)=>{
-//             res.render('home.html', {erro_recupera_estabelecimentos});
-//         }); 
-//     }).catch((erro_alterar_usuario)=>{
-//         res.render('home.html', {erro_alterar_usuario});
-//     });  
-// }
+
 function OneUserItem(req, res) {
     Usuario.findOne({
         where: {
@@ -184,17 +173,28 @@ function OneUserItem(req, res) {
         res.render('home.html', {erro_alterar_usuario});
     });  
 }
-function OneUserEdit(req, res) {
+async function OneUserEdit(req, res) {
     Usuario.findOne({
         where: {
             id_user: req.session.usuario.id_user,
         }
-    }).then((usuario)=>{
-        res.render('editarPerfil.html', {usuario});
+    }).then(async(usuario)=>{
+        let tipoUsuario = await TipoUsuario.findOne({where: {
+            id: usuario.id_tipo_usuario
+        }});
+
+        if(tipoUsuario.descricao === 'Cliente'){
+            res.render('editarPerfil.html', {usuario});
+        }
+        else{
+            res.render('editarPerfilEstabelecimento.html', {usuario});
+        }
     }).catch((erro)=>{
         res.render('editarPerfil.html', {erro});
     });  
 }
+
+
 
 function sair(req, res) {
     req.session.destroy();

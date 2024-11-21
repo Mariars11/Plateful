@@ -5,12 +5,7 @@ const Usuario = require('../model/usuario');
 const ConsumoItemCliente = require('../model/consumo_item_usuario');
 const AvaliacaoItem = require('../model/avaliacaoItem');
 
-function indexView(req, res) {
-    res.render('index.html');
-}
-function cadastroView(req, res) {
-    res.render('cadastro.html');
-}
+
 function homeViewItem(req, res) {
     Item.findAll({
         where: {
@@ -149,11 +144,9 @@ function excluirItem(req, res) {
     }); 
 }
 module.exports = {
-    indexView,
     homeViewItem,
     homeViewOne,
     cadastrarItem,
-    cadastroView,
     editarItem,
     excluirItem,
     viewOneItemCliente,
