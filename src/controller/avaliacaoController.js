@@ -15,7 +15,7 @@ async function addAvaliacaoEstabelecimento(req, res){
                 id_usuario: req.session.usuario.id_user
             }
         }).then(() =>{
-            res.redirect('/avaliacoes_estabelecimento');
+            res.redirect(`/avaliacoes_estabelecimento/${req.params.id}`);
         })
     })
 }
@@ -34,17 +34,25 @@ async function addAvaliacaoItem(req, res){
                 id_usuario: req.session.usuario.id_user
             }
         }).then(() =>{
-            res.redirect('/avaliacoes_estabelecimento');
+            res.redirect(`/avaliacoes_estabelecimento/${req.params.idEst}`);
         })
     })
 }
 async function avaliacoesViewCliente(req, res) {
-    AvaliacaoEstabelecimento.findAll({
+    AvaliacaoEstabelecimento.findOne({
         where:{
-            id_usuario: req.session.usuario.id_user
+            id_usuario: req.session.usuario.id_user,
+            id_estabelecimento: req.params.idEst
         }
-    }).then((avaliacoes) =>{
-        res.render('avaliacoesCliente.html', {avaliacoes});
+    }).then((avaliacaoEstabelecimento) =>{
+        AvaliacaoItem.findAll({
+            where:{
+                id_usuario: req.session.usuario.id_user,
+                id_estabelecimento: req.params.idEst
+            }
+        }).then((avaliacoesItem) =>{
+            res.render('avaliacoesCliente.html', {avaliacaoEstabelecimento, avaliacoesItem});
+        })
     }).catch((erro_recuperar_avaliacoes)=>{
         res.render('avaliacoesCliente.html', {erro_recuperar_avaliacoes});
     }); 

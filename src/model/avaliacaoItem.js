@@ -33,14 +33,6 @@ const AvaliacaoItem = database.define('avaliacaoItem', {
         type: DataTypes.DATE,
         defaultValues: DataTypes.NOW,
         allowNull: false
-    },
-    estado_novo:{
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    estado_anterior:{
-        type: Sequelize.STRING,
-        allowNull: true
     }
 });
 

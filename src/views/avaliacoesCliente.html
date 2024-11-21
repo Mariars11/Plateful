@@ -20,7 +20,7 @@
             <div>
                 <ul class="nav justify-content-end">
                     <li class="nav-item">
-                        <a class="nav-link" style="color: white; font-size: 20px;" href="/">Perfil</a>
+                        <a class="nav-link" style="color: white; font-size: 20px;" href="/home">Home</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" style="color: white; font-size: 20px;" href="/Sair">Sair</a>
@@ -28,13 +28,21 @@
                 </ul>
             </div>
         </div>
-        {{#avaliacoes}}
+        {{#avaliacaoEstabelecimento}}
         <div>
             <p>{{avaliacao_usuario}}</p>
             <p>{{nota_usuario}}</p>
             <p>{{data_avaliacao}}</p>
         </div>
-        {{/avaliacoes}}
+        {{/avaliacaoEstabelecimento}}
+
+        {{#avaliacoesItem}}
+        <div>
+            <p>{{avaliacao_usuario}}</p>
+            <p>{{nota_usuario}}</p>
+            <p>{{data_avaliacao}}</p>
+        </div>
+        {{/avaliacoesItem}}
     </body>
 </html>
 
