@@ -136,9 +136,9 @@
                     Erro ao cadastrar restaurante!
                 </div>
             {{/erro_cadastrar_estabelecimento}}
-            <div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
                 <h2>Crie seu estabelecimento</h2>
-                <form action="/cadastrar_estabelecimento" method="post">
+                <form action="/cadastrar_estabelecimento" method="post" style="width: 30%;">
                   <div class="mb-1 mt-1">
                     <label for="titulo" class="form-label">Nome:</label>
                     <input required type="text" class="form-control" id="nome" placeholder="Informe o nome do estabelecimento" name="nome">

@@ -17,11 +17,19 @@ const AvaliacaoItem = database.define('avaliacaoItem', {
         type: Sequelize.TINYINT,
         allowNull: false
     },
-    url_imagem_usuario: {
+    url_imagem: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    nome: {
         type: Sequelize.STRING,
         allowNull: true
     },
     id_estabelecimento:{
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    id_item:{
         type: Sequelize.INTEGER,
         allowNull: false
     },

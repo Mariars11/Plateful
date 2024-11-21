@@ -29,18 +29,27 @@
             </div>
         </div>
         {{#avaliacaoEstabelecimento}}
+
+        <h1>Review - {{nome}}</h1>
+        <img src="{{imagem}}" alt="imagem {{nome}}">
         <div>
             <p>{{avaliacao_usuario}}</p>
             <p>{{nota_usuario}}</p>
             <p>{{data_avaliacao}}</p>
         </div>
         {{/avaliacaoEstabelecimento}}
-
+        <h1>Review - Cardápio</h1>
         {{#avaliacoesItem}}
         <div>
-            <p>{{avaliacao_usuario}}</p>
-            <p>{{nota_usuario}}</p>
-            <p>{{data_avaliacao}}</p>
+            <h2>{{nome}}</h2>
+            <div>
+                <img src="{{url_imagem}}" alt="imagem {{nome}}">
+            </div>
+            <div>
+                <p>{{avaliacao_usuario}}</p>
+                <p>{{nota_usuario}}</p>
+                <p>{{data_avaliacao}}</p>
+            </div>            
         </div>
         {{/avaliacoesItem}}
     </body>
