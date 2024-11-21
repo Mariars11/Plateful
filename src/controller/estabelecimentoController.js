@@ -189,7 +189,7 @@ function homeViewOne(req, res) {
             res.render('editarEstabelecimento.html', {erro_recupera_estabelecimentos});
         }); 
     }).catch((erro_alterar_usuario)=>{
-        res.render('home.html', {erro_alterar_usuario});
+        res.render('homeRestaraunte.html', {erro_alterar_usuario});
     });
     
 } 
@@ -239,9 +239,12 @@ function editarEstabelecimento(req, res) {
         estabelecimento.update({
             nome: req.body.nome,
             unidade: req.body.unidade,
+            descricao: req.body.descricao,
+            url_imagem_estabelecimento: req.body.imagem,
+            endereco: req.body.endereco,
         }) 
         estabelecimento.save()
-        res.redirect('/home');
+        res.redirect('/homeRestaurante');
     }).catch((erro_recupera_estabelecimentos)=>{
         res.render('editarEstabelecimento.html', {erro_recupera_estabelecimentos});
     }); 

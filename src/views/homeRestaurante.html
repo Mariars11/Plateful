@@ -36,6 +36,11 @@
               </div>
               <div class="div-nome-restaurante" style="align-self: flex-start;">
                 <h1>{{nome}}</h1>
+                <form action="/editar_estabelecimento/{{id_estabelecimento}}" method="get">
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    <span aria-hidden="true">✏️</span>
+                  </button>
+                </form>
               </div>
               <div class="div-detalhes-rest" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
                 <div style="align-self: flex-start;">
