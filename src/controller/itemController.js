@@ -127,12 +127,13 @@ function editarItem(req, res) {
         item.update({
             titulo: req.body.titulo,
             preco: req.body.preco,
+            url_imagem: req.body.imagem
         }) 
         item.save()
        
-        res.redirect('/lista_itens/' + req.params.idEstabelecimento);
+        res.redirect('/homeRestaurante');
     }).catch((erro_recupera_item)=>{
-        res.render('editarItem.html', {erro_recupera_item});
+        res.render('homeRestaurante.html', {erro_recupera_item});
     }); 
 }
 function excluirItem(req, res) {
