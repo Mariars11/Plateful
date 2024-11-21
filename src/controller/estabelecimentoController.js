@@ -5,7 +5,9 @@ const Estado = require('../model/estado');
 const TipoUsuario = require('../model/tipoUsuario');
 const Estabelecimento = require('../model/estabelecimento');
 const EstadoClienteEstabelecimento = require('../model/estado_cliente_estabelecimento');
+const AvaliacaoItem = require('../model/avaliacaoItem');
 const { where, Op } = require('sequelize');
+const AvaliacaoEstabelecimento = require('../model/avaliacaoEstabelecimento');
 
 function indexView(req, res) {
     res.render('index.html');
@@ -139,10 +141,17 @@ async function homeViewOneCliente(req, res) {
             id_estabelecimento: req.params.idEst
         }
     }).then(async(estabelecimento) =>{
+        let avaliacaoEstabelecimento = await AvaliacaoEstabelecimento.findOne({
+            where:{
+                id_estabelecimento: estabelecimento.id_estabelecimento,
+                id_usuario: req.session.usuario.id_user
+            }
+        });
+        console.log(avaliacaoEstabelecimento);
         
         await Item.findAll({
             where:{
-                id_estabelecimento: estabelecimento.id_estabelecimento
+                id_estabelecimento: estabelecimento.id_estabelecimento,
             }
         }).then(async (itens) =>{
             
@@ -158,7 +167,7 @@ async function homeViewOneCliente(req, res) {
             let itensSobremesa = itens.filter(({id_categoria}) => id_categoria === sobremesa.id);
             
             
-            res.render('estabelecimentoCliente.html', {estados, estabelecimento, itensEntrada, itensPrincipal, itensBebida, itensSobremesa})
+            res.render('estabelecimentoCliente.html', {estados, estabelecimento, itensEntrada, itensPrincipal, itensBebida, itensSobremesa, avaliacaoEstabelecimento})
         }).catch((erro_recupera_estabelecimento)=>{
             res.render('estabelecimentoCliente.html', {erro_recupera_estabelecimento});
         });

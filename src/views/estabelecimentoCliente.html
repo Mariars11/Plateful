@@ -60,9 +60,15 @@
                     </div>
                   </form>
                 </div>
-                <div class="div-avaliacao">
-                  <a role="button" id="btn-avaliacao" style="color: blue;">Deixe uma avaliação</a>
-                </div>
+                {{#avaliacaoEstabelecimento}}
+                  <div class="div-avaliacao">
+                  </div>
+                {{/avaliacaoEstabelecimento}}
+                {{^avaliacaoEstabelecimento}}
+                  <div class="div-avaliacao">
+                    <a role="button" id="btn-avaliacao" style="color: blue;">Deixe uma avaliação</a>
+                  </div>
+                {{/avaliacaoEstabelecimento}}
               </div>
               <div class="cardapio" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between; margin-top: 50px;">
                 <div>

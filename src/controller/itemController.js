@@ -3,6 +3,7 @@ const Item = require('../model/item');
 const Categoria = require('../model/categoria');
 const Usuario = require('../model/usuario');
 const ConsumoItemCliente = require('../model/consumo_item_usuario');
+const AvaliacaoItem = require('../model/avaliacaoItem');
 
 function indexView(req, res) {
     res.render('index.html');
@@ -68,6 +69,12 @@ async function viewOneItemCliente(req, res){
             id_item: req.params.idItem
         }
     }).then(async (item) =>{
+        let avaliacaoItem = await AvaliacaoItem.findOne({
+            where:{
+                id_usuario: req.session.usuario.id_user,
+                id_item: req.params.idItem,
+            }
+        })
         let consumoItem = await ConsumoItemCliente.findOne({
             where:{
                 id_usuario: req.session.usuario.id_user,
@@ -77,7 +84,7 @@ async function viewOneItemCliente(req, res){
         if(consumoItem !== null){
             item.flag_consumido = consumoItem.flag_consumo;           
         }
-        res.render('itemCliente.html', {item});
+        res.render('itemCliente.html', {item, avaliacaoItem});
     })
 }
 function cadastrarItem(req, res) {

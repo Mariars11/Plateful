@@ -40,10 +40,10 @@
               </div>
               <div class="div-detalhes-rest" style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
                 <div style="align-self: flex-start;">
-                  <p>{{preco}}</p>
+                  <h3>R$ {{preco}}</h3>
                 </div>
                 <div style="align-self: flex-end;">
-                  <p>{{descricao}}</p>
+                  <h3>{{descricao}}</h3>
                 </div>
               </div>
               <div class="div-consumo-avaliacao" style="display: flex; width: 100%; justify-content: space-between;">
@@ -54,9 +54,15 @@
                         <button class="btn btn-primary btn-sm" type="submit">Salvar</button>
                   </form>
                 </div>
-                <div>
-                  <a role="button" id="btn-avaliacao" style="color: blue;">Deixe uma avaliação</a>
-                </div>
+                {{#avaliacaoItem}}
+                  <div>
+                  </div>
+                {{/avaliacaoItem}}
+                {{^avaliacaoItem}}
+                  <div>
+                    <a role="button" id="btn-avaliacao" style="color: blue;">Deixe uma avaliação</a>
+                  </div>
+                {{/avaliacaoItem}}
               </div>
             </div>
         {{/item}}
