@@ -4,4 +4,4 @@
 
 ## Para rodar o cypress
 
-> npx cypreess open
+> npx cypress open
